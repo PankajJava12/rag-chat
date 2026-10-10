@@ -4,6 +4,10 @@ A tenant-aware insurance policy assistant built with Node.js, React, PostgreSQL/
 
 The project covers Phases 1–7. The current application runs in **Docker with OpenAI chat and embeddings**. The native Gemini profile remains available as an alternative. The full Docker application also supports **Ollama** with the base definitions. AWS production deployment remains deferred; LocalStack provides local S3/SQS validation. See [phase coverage](#implementation-phases) for implemented features and remaining boundaries.
 
+## Project wiki
+
+Start at [wiki/index.md](wiki/index.md) for the maintained project overview, architecture, ingestion/retrieval flows, decisions, operations and source-linked validation history. Existing `docs/` files remain the source collection. [Wiki maintenance instructions](wiki/AGENTS.md) define how agents ingest sources, answer questions, track contradictions and keep the index/log current.
+
 ## Choose how to run
 
 Run commands from the repository root. Use only one application mode at a time: API port 3000 and web port 8080 are shared.
