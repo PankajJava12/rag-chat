@@ -1,0 +1,197 @@
+name: ai-advisor-assistant
+x-runtime: &runtime
+  build: { context: ., dockerfile: docker/Dockerfile, target: runtime }
+  init: true
+  read_only: true
+  tmpfs: [/tmp]
+  security_opt: [no-new-privileges:true]
+  cap_drop: [ALL]
+  mem_limit: 1g
+  cpus: 2
+  pids_limit: 128
+  stop_grace_period: 20s
+x-environment: &environment
+  NODE_ENV: development
+  DATABASE_URL: postgresql://advisor_app:${APP_DB_PASSWORD:?Run npm run setup}@postgres:5432/advisor
+  REDIS_URL: redis://redis:6379
+  AUTH_MODE: local
+  STORAGE_ENCRYPTION_KEY: ${STORAGE_ENCRYPTION_KEY:?Run npm run setup}
+  STORAGE_DIRECTORY: /data/documents
+  ALLOW_EXTERNAL_AI: ${ALLOW_EXTERNAL_AI:-false}
+  EMBEDDING_PROVIDER: ollama
+  OLLAMA_URL: http://ollama:11434
+  OLLAMA_MODEL: nomic-embed-text:v1.5
+  CLAMAV_HOST: clamav
+  CLAMAV_PORT: 3310
+  AWS_REGION: ${AWS_REGION:-ap-south-1}
+  ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:8080,http://localhost:5173}
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: advisor_owner
+      POSTGRES_DB: advisor
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run npm run setup}
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD:?Run npm run setup}
+    ports: ["127.0.0.1:5432:5432"]
+    volumes:
+      [
+        "postgres-data:/var/lib/postgresql/data",
+        "./docker/init-db.sh:/docker-entrypoint-initdb.d/10-app-role.sh:ro",
+      ]
+    healthcheck:
+      {
+        test: [CMD-SHELL, "pg_isready -U advisor_owner -d advisor"],
+        interval: 5s,
+        timeout: 3s,
+        retries: 20,
+      }
+    mem_limit: 1g
+  redis:
+    image: redis:8-alpine
+    command:
+      [
+        redis-server,
+        --maxmemory,
+        128mb,
+        --maxmemory-policy,
+        allkeys-lru,
+        --save,
+        "",
+        --appendonly,
+        "no",
+      ]
+    ports: ["127.0.0.1:6379:6379"]
+    healthcheck:
+      { test: [CMD, redis-cli, ping], interval: 5s, timeout: 3s, retries: 10 }
+    mem_limit: 256m
+  ollama:
+    image: ollama/ollama@sha256:69f27594d8127cb43db1edcafa5e2d3cd8f88bdbc54a2cf3ceb11b8d138a24b1
+    ports: ["127.0.0.1:11434:11434"]
+    volumes: ["ollama-models:/root/.ollama"]
+    environment: { OLLAMA_NUM_PARALLEL: 1, OLLAMA_MAX_LOADED_MODELS: 1 }
+    healthcheck:
+      { test: [CMD, ollama, list], interval: 10s, timeout: 5s, retries: 30 }
+    mem_limit: 2500m
+    cpus: 4
+  model-init:
+    image: ollama/ollama@sha256:69f27594d8127cb43db1edcafa5e2d3cd8f88bdbc54a2cf3ceb11b8d138a24b1
+    environment:
+      {
+        OLLAMA_HOST: "http://ollama:11434",
+        OLLAMA_CHAT_MODEL: "${OLLAMA_CHAT_MODEL:-qwen2.5:1.5b}",
+        CHAT_PROVIDER: "${CHAT_PROVIDER:-ollama}",
+      }
+    entrypoint:
+      [
+        sh,
+        -c,
+        '(ollama show nomic-embed-text:v1.5 >/dev/null 2>&1 || ollama pull nomic-embed-text:v1.5) && if [ "$$CHAT_PROVIDER" = ollama ]; then ollama show "$$OLLAMA_CHAT_MODEL" >/dev/null 2>&1 || ollama pull "$$OLLAMA_CHAT_MODEL"; fi',
+      ]
+    depends_on: { ollama: { condition: service_healthy } }
+  clamav:
+    image: clamav/clamav@sha256:ebec5bc138401b36ae987caa1a3fa3c3b2a21ed3d51f0bfa5852825e663e67b0
+    platform: linux/amd64
+    ports: ["127.0.0.1:3310:3310"]
+    volumes: ["clamav-signatures:/var/lib/clamav"]
+    healthcheck:
+      {
+        test: [CMD, clamdscan, --ping, "1"],
+        interval: 15s,
+        timeout: 5s,
+        retries: 60,
+        start_period: 120s,
+      }
+    mem_limit: 2g
+  migrate:
+    <<: *runtime
+    environment:
+      NODE_ENV: development
+      AUTH_MODE: local
+      MIGRATION_DATABASE_URL: postgresql://advisor_owner:${POSTGRES_PASSWORD}@postgres:5432/advisor
+      WORKER_DB_PASSWORD: ${WORKER_DB_PASSWORD:?Run npm run setup}
+      LOCAL_TENANT_ID: ${LOCAL_TENANT_ID:?Run npm run setup}
+      LOCAL_ADMIN_EMAIL: ${LOCAL_ADMIN_EMAIL}
+      LOCAL_ADMIN_PASSWORD: ${LOCAL_ADMIN_PASSWORD}
+      LOCAL_ADVISOR_EMAIL: ${LOCAL_ADVISOR_EMAIL}
+      LOCAL_ADVISOR_PASSWORD: ${LOCAL_ADVISOR_PASSWORD}
+    command:
+      [
+        sh,
+        -c,
+        "node dist/packages/database/src/migrate.js && node dist/packages/database/src/seed.js",
+      ]
+    depends_on: { postgres: { condition: service_healthy } }
+  api:
+    <<: *runtime
+    environment:
+      <<: *environment
+      AUTH_SECRET: ${AUTH_SECRET:?Run npm run setup}
+      CHAT_PROVIDER: ${CHAT_PROVIDER:-ollama}
+      CHAT_TIMEOUT_MS: ${CHAT_TIMEOUT_MS:-180000}
+      CHAT_CONTEXT_TOKENS: ${CHAT_CONTEXT_TOKENS:-2000}
+      CHAT_MAX_OUTPUT_TOKENS: ${CHAT_MAX_OUTPUT_TOKENS:-768}
+      CHAT_TOP_K: ${CHAT_TOP_K:-8}
+      RETRIEVAL_MODE: ${RETRIEVAL_MODE:-hybrid}
+      RETRIEVAL_RERANK: ${RETRIEVAL_RERANK:-true}
+      RETRIEVAL_CANDIDATES: ${RETRIEVAL_CANDIDATES:-20}
+      OLLAMA_CHAT_MODEL: ${OLLAMA_CHAT_MODEL:-qwen2.5:1.5b}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4.1}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+    volumes: ["policy-files:/data/documents"]
+    ports: ["127.0.0.1:3000:3000"]
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+      redis: { condition: service_healthy }
+    healthcheck:
+      test:
+        [
+          CMD,
+          node,
+          -e,
+          "fetch('http://localhost:3000/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  worker:
+    <<: *runtime
+    environment:
+      <<: *environment
+      DATABASE_URL: postgresql://advisor_worker:${WORKER_DB_PASSWORD}@postgres:5432/advisor
+    volumes: ["policy-files:/data/documents:ro"]
+    command: [node, dist/apps/worker/src/worker.js]
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+      redis: { condition: service_healthy }
+      model-init: { condition: service_completed_successfully }
+      clamav: { condition: service_healthy }
+    healthcheck:
+      test:
+        [
+          CMD,
+          node,
+          -e,
+          "fetch('http://localhost:3001/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  web:
+    build: { context: ., dockerfile: docker/Dockerfile, target: web }
+    ports: ["127.0.0.1:8080:8080"]
+    depends_on: { api: { condition: service_healthy } }
+    healthcheck:
+      {
+        test: [CMD, wget, -q, --spider, http://127.0.0.1:8080/],
+        interval: 10s,
+        timeout: 3s,
+        retries: 5,
+      }
+    mem_limit: 128m
+    security_opt: [no-new-privileges:true]
+volumes:
+  postgres-data:
+  policy-files:
+  ollama-models:
+  clamav-signatures:

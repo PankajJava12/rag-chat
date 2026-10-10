@@ -1,0 +1,68 @@
+name: Infrastructure validation
+on:
+  push:
+    paths:
+      [
+        "infra/**",
+        "docker-compose.localstack.yml",
+        "docker/localstack-init.sh",
+        "packages/ingestion/**",
+        "packages/shared/src/config.ts",
+        "tests/e2e/localstack.ts",
+        ".github/workflows/infrastructure.yml",
+      ]
+  pull_request:
+    paths:
+      [
+        "infra/**",
+        "docker-compose.localstack.yml",
+        "docker/localstack-init.sh",
+        "packages/ingestion/**",
+        "packages/shared/src/config.ts",
+        "tests/e2e/localstack.ts",
+        ".github/workflows/infrastructure.yml",
+      ]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with: { terraform_version: "1.14.9" }
+      - run: terraform fmt -check -recursive infra
+      - run: terraform -chdir=infra/aws init -backend=false -input=false -lockfile=readonly
+      - run: terraform -chdir=infra/aws validate
+      - run: terraform -chdir=infra/aws test
+  localstack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "24", cache: npm }
+      - run: npm ci
+      - run: npm run setup
+      - run: docker compose --env-file .env.development -f docker-compose.yml -f docker-compose.localstack.yml up -d --wait postgres redis ollama clamav localstack
+      - uses: hashicorp/setup-terraform@v3
+        with: { terraform_version: "1.14.9" }
+      - run: terraform -chdir=infra/localstack init -input=false -lockfile=readonly
+      - run: terraform -chdir=infra/localstack validate
+      - run: terraform -chdir=infra/localstack apply -auto-approve -input=false
+      - run: npm run db:migrate
+      - run: npm run db:seed
+      - run: docker compose --env-file .env.development run --rm model-init
+      - run: npm run build
+      - run: npm run test:localstack
+      - run: docker compose --env-file .env.development -f docker-compose.yml -f docker-compose.localstack.yml up -d --build --wait api worker web
+      - run: npm run test:localstack:containers
+      - run: node --env-file=.env.development scripts/localstack-persistence.mjs --record
+      - run: docker compose --env-file .env.development -f docker-compose.yml -f docker-compose.localstack.yml restart localstack
+      - run: docker compose --env-file .env.development -f docker-compose.yml -f docker-compose.localstack.yml up -d --wait localstack
+      - run: node --env-file=.env.development scripts/localstack-persistence.mjs
+      - uses: actions/upload-artifact@v4
+        with: { name: localstack-evidence, path: docs/phase-6*demo.json }
+      - if: always()
+        run: docker compose --env-file .env.development -f docker-compose.yml -f docker-compose.localstack.yml down

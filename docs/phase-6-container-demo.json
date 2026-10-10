@@ -1,0 +1,14 @@
+{
+  "validatedAt": "2026-10-09T05:15:32.433Z",
+  "environment": "Docker API/worker/web, LocalStack S3/SQS, Ollama and pgvector",
+  "policyId": "ed74cca8-c8e8-4786-be20-2ffe8d68aff8",
+  "versionId": "7e88442d-2d81-4603-bd89-580a3730e321",
+  "documentId": "a8691511-e723-4365-9204-17f1a0153120",
+  "checks": [
+    "Authenticated upload through Nginx",
+    "Docker worker scanned, embedded and indexed S3 document",
+    "Hybrid retrieval returned indexed evidence",
+    "Authenticated source download matched original bytes",
+    "Authenticated source survives emulator reset via encrypted local recovery copy"
+  ]
+}

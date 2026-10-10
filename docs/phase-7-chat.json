@@ -1,0 +1,20 @@
+{
+  "validatedAt": "2026-10-09T05:43:20.202Z",
+  "conversationId": "51544b02-3b7e-4382-bda9-e918bb42cbc5",
+  "policyId": "ad4f6433-0727-46a9-b003-90f0a25930b6",
+  "versionId": "17859b53-1f4e-4556-9d84-f138bbe70c9a",
+  "model": "ollama:qwen2.5:1.5b",
+  "firstEventMs": 17.404415999999856,
+  "totalMs": 18632.235083,
+  "traceId": "2967abe81e56ad53abbe7739fc5a3e93",
+  "tokenUsage": {
+    "inputTokens": 423,
+    "outputTokens": 30
+  },
+  "citationCount": 1,
+  "checks": [
+    "Real local generation returned the cited 30-day waiting-period answer",
+    "SSE completed and answer persisted"
+  ],
+  "scope": "One synthetic question; not a P95 or concurrency benchmark"
+}

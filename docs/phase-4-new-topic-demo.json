@@ -1,0 +1,33 @@
+{
+  "checkedAt": "2026-10-08T12:34:57.727Z",
+  "question": "Does it cover dental?",
+  "answer": "Horizon Advanced 2026-10-08T12:25:14\nI cannot determine that from the available policy documents. Please check the policy scope and effective date, or upload the relevant terms.\n\nSummit Advanced 2026-10-08T12:25:14\nI cannot determine that from the available policy documents. Please check the policy scope and effective date, or upload the relevant terms.",
+  "citations": [],
+  "insufficientEvidence": true,
+  "conflict": false,
+  "grounding": "abstained",
+  "id": "ce89d950-633e-4952-ac81-91e7e90cceb6",
+  "conversationId": "1db0e349-c776-44f8-a0e1-ebb785b19d9d",
+  "asOfDate": "2026-10-08",
+  "model": "ollama:qwen2.5:1.5b",
+  "usedHistory": true,
+  "comparison": [
+    {
+      "policyId": "57b1be10-c7fb-4bb3-a6e3-2e8d622c7451",
+      "policyName": "Horizon Advanced 2026-10-08T12:25:14",
+      "insufficientEvidence": true,
+      "conflict": false
+    },
+    {
+      "policyId": "2b0f18e0-3e34-4735-8e88-580c265b15a2",
+      "policyName": "Summit Advanced 2026-10-08T12:25:14",
+      "insufficientEvidence": true,
+      "conflict": false
+    }
+  ],
+  "processingTimeMs": 2965,
+  "tokenUsage": {
+    "inputTokens": 0,
+    "outputTokens": 0
+  }
+}

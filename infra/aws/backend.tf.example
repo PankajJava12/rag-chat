@@ -1,0 +1,11 @@
+# Rename only for an approved AWS environment. Bootstrap this separate state bucket first.
+terraform {
+ backend "s3" {
+  bucket = "REPLACE-approved-terraform-state-bucket"
+  key = "advisor/production.tfstate"
+  region = "ap-south-1"
+  encrypt = true
+  use_lockfile = true
+  kms_key_id = "REPLACE-approved-state-kms-key-arn"
+ }
+}

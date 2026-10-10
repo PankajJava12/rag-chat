@@ -1,0 +1,13 @@
+# No live values or secrets. AWS plan/apply is intentionally blocked by this default.
+deployment_approved = false
+certificate_arn = "REPLACE-approved-ACM-certificate-arn"
+allowed_origin = "https://REPLACE-approved-domain"
+api_image = "REPLACE-ECR-runtime-image-digest"
+web_image = "REPLACE-ECR-web-image-digest"
+clamav_image = "REPLACE-approved-ClamAV-image-digest"
+app_secret_arn = "REPLACE-api-runtime-secret-arn"
+worker_secret_arn = "REPLACE-worker-runtime-secret-arn"
+redis_auth_secret_arn = "REPLACE-Redis-URL-secret-arn"
+# Supply redis_auth_token through the approved secrets workflow. Terraform state contains it.
+embedding_url = "http://REPLACE-private-embedding-service:11434"
+chat_url = "http://REPLACE-private-chat-service:11434"

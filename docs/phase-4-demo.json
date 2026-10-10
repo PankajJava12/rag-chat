@@ -1,0 +1,876 @@
+{
+  "startedAt": "2026-10-08T12:25:14.175Z",
+  "model": "ollama:qwen2.5:1.5b",
+  "policyId": "57b1be10-c7fb-4bb3-a6e3-2e8d622c7451",
+  "documents": [
+    {
+      "version_id": "209e9300-4285-4ac0-b2f2-66fdcef49e2c",
+      "document_id": "c4422da2-a5eb-448f-8337-d733f6deb9ca",
+      "version": 1,
+      "status": "INDEXED",
+      "scan_status": "CLEAN",
+      "failure_code": null,
+      "chunk_count": 1,
+      "embedding_model": "ollama:nomic-embed-text:v1.5",
+      "indexed_at": "2026-10-08T12:25:17.395Z"
+    },
+    {
+      "version_id": "8536676d-d158-4c5e-a40d-5ea051bcc533",
+      "document_id": "de9f79f8-1ba2-4bd4-b41a-beda1e067afb",
+      "version": 1,
+      "status": "INDEXED",
+      "scan_status": "CLEAN",
+      "failure_code": null,
+      "chunk_count": 1,
+      "embedding_model": "ollama:nomic-embed-text:v1.5",
+      "indexed_at": "2026-10-08T12:25:19.688Z"
+    },
+    {
+      "version_id": "917dd4e6-0155-4c96-9192-efa2cd256c73",
+      "document_id": "cc53ff67-f456-457c-927f-745b75b2aa81",
+      "version": 1,
+      "status": "INDEXED",
+      "scan_status": "CLEAN",
+      "failure_code": null,
+      "chunk_count": 8,
+      "embedding_model": "ollama:nomic-embed-text:v1.5",
+      "indexed_at": "2026-10-08T12:28:55.572Z"
+    }
+  ],
+  "answers": [
+    {
+      "question": "What is the room rent benefit?",
+      "answer": "According to the policy documents:\n\n“Room rent is limited to INR 5000 per day.” [1]",
+      "citations": [
+        {
+          "number": 1,
+          "chunkId": "5d27062d-7958-4fd5-b110-a1b4f918d1cf",
+          "documentId": "c4422da2-a5eb-448f-8337-d733f6deb9ca",
+          "documentName": "advanced-terms.pdf",
+          "versionId": "209e9300-4285-4ac0-b2f2-66fdcef49e2c",
+          "version": 1,
+          "source": {
+            "pageNumber": 1,
+            "kind": "paragraph"
+          },
+          "quote": "Room rent is limited to INR 5000 per day.",
+          "sourceUrl": "/api/v1/documents/c4422da2-a5eb-448f-8337-d733f6deb9ca/source/209e9300-4285-4ac0-b2f2-66fdcef49e2c"
+        }
+      ],
+      "insufficientEvidence": false,
+      "conflict": false,
+      "grounding": "verified_quotes",
+      "id": "74891ba8-6cb8-4cb1-b94b-d9250d8b5fbe",
+      "conversationId": "e484bbe0-8b70-44ab-9c32-7d1527b21017",
+      "asOfDate": "2026-10-08",
+      "model": "ollama:qwen2.5:1.5b",
+      "usedHistory": false,
+      "processingTimeMs": 133345,
+      "tokenUsage": {
+        "inputTokens": 467,
+        "outputTokens": 36
+      },
+      "firstEventMs": 45
+    },
+    {
+      "question": "What about its limit?",
+      "answer": "According to the policy documents:\n\n“Room rent is limited to INR 5000 per day.” [1]",
+      "citations": [
+        {
+          "number": 1,
+          "chunkId": "5d27062d-7958-4fd5-b110-a1b4f918d1cf",
+          "documentId": "c4422da2-a5eb-448f-8337-d733f6deb9ca",
+          "documentName": "advanced-terms.pdf",
+          "versionId": "209e9300-4285-4ac0-b2f2-66fdcef49e2c",
+          "version": 1,
+          "source": {
+            "pageNumber": 1,
+            "kind": "paragraph"
+          },
+          "quote": "Room rent is limited to INR 5000 per day.",
+          "sourceUrl": "/api/v1/documents/c4422da2-a5eb-448f-8337-d733f6deb9ca/source/209e9300-4285-4ac0-b2f2-66fdcef49e2c"
+        }
+      ],
+      "insufficientEvidence": false,
+      "conflict": false,
+      "grounding": "verified_quotes",
+      "id": "dbbcb2a0-e6f5-49b7-bd88-db55be7cf54a",
+      "conversationId": "e484bbe0-8b70-44ab-9c32-7d1527b21017",
+      "asOfDate": "2026-10-08",
+      "model": "ollama:qwen2.5:1.5b",
+      "usedHistory": true,
+      "processingTimeMs": 47002,
+      "tokenUsage": {
+        "inputTokens": 480,
+        "outputTokens": 35
+      },
+      "firstEventMs": 76
+    },
+    {
+      "question": "What is the dental coverage limit?",
+      "answer": "I cannot determine that from the available policy documents. Please check the policy scope and effective date, or upload the relevant terms.",
+      "citations": [],
+      "insufficientEvidence": true,
+      "conflict": false,
+      "grounding": "abstained",
+      "id": "b4d8ce6b-9ba7-4aac-aa8c-9e4cce8c643f",
+      "conversationId": "e484bbe0-8b70-44ab-9c32-7d1527b21017",
+      "asOfDate": "2026-10-08",
+      "model": "ollama:qwen2.5:1.5b",
+      "usedHistory": false,
+      "processingTimeMs": 3236,
+      "tokenUsage": {
+        "inputTokens": 0,
+        "outputTokens": 0
+      },
+      "firstEventMs": 102
+    },
+    {
+      "question": "What is the initial waiting period?",
+      "answer": "Horizon Advanced 2026-10-08T12:25:14\nAccording to the policy documents:\n\n“The initial waiting period is 30 days.” [1]\n\nSummit Advanced 2026-10-08T12:25:14\nAccording to the policy documents:\n\n“The initial waiting period is 15 days.” [2]",
+      "citations": [
+        {
+          "number": 1,
+          "chunkId": "5d27062d-7958-4fd5-b110-a1b4f918d1cf",
+          "documentId": "c4422da2-a5eb-448f-8337-d733f6deb9ca",
+          "documentName": "advanced-terms.pdf",
+          "versionId": "209e9300-4285-4ac0-b2f2-66fdcef49e2c",
+          "version": 1,
+          "source": {
+            "pageNumber": 1,
+            "kind": "paragraph"
+          },
+          "quote": "The initial waiting period is 30 days.",
+          "sourceUrl": "/api/v1/documents/c4422da2-a5eb-448f-8337-d733f6deb9ca/source/209e9300-4285-4ac0-b2f2-66fdcef49e2c",
+          "policyId": "57b1be10-c7fb-4bb3-a6e3-2e8d622c7451",
+          "policyName": "Horizon Advanced 2026-10-08T12:25:14"
+        },
+        {
+          "number": 2,
+          "chunkId": "4fa4598f-e5ce-4c60-95b6-931fc3909901",
+          "documentId": "de9f79f8-1ba2-4bd4-b41a-beda1e067afb",
+          "documentName": "advanced-terms.pdf",
+          "versionId": "8536676d-d158-4c5e-a40d-5ea051bcc533",
+          "version": 1,
+          "source": {
+            "pageNumber": 1,
+            "kind": "paragraph"
+          },
+          "quote": "The initial waiting period is 15 days.",
+          "sourceUrl": "/api/v1/documents/de9f79f8-1ba2-4bd4-b41a-beda1e067afb/source/8536676d-d158-4c5e-a40d-5ea051bcc533",
+          "policyId": "2b0f18e0-3e34-4735-8e88-580c265b15a2",
+          "policyName": "Summit Advanced 2026-10-08T12:25:14"
+        }
+      ],
+      "insufficientEvidence": false,
+      "conflict": false,
+      "grounding": "verified_quotes",
+      "id": "b1d8a99a-3cf1-4473-a4d0-564c6400e6b6",
+      "conversationId": "1db0e349-c776-44f8-a0e1-ebb785b19d9d",
+      "asOfDate": "2026-10-08",
+      "model": "ollama:qwen2.5:1.5b",
+      "usedHistory": false,
+      "comparison": [
+        {
+          "policyId": "57b1be10-c7fb-4bb3-a6e3-2e8d622c7451",
+          "policyName": "Horizon Advanced 2026-10-08T12:25:14",
+          "insufficientEvidence": false,
+          "conflict": false
+        },
+        {
+          "policyId": "2b0f18e0-3e34-4735-8e88-580c265b15a2",
+          "policyName": "Summit Advanced 2026-10-08T12:25:14",
+          "insufficientEvidence": false,
+          "conflict": false
+        }
+      ],
+      "processingTimeMs": 19645,
+      "tokenUsage": {
+        "inputTokens": 923,
+        "outputTokens": 60
+      },
+      "firstEventMs": 8
+    },
+    {
+      "question": "What documents are required for claims?",
+      "answer": "Horizon Advanced 2026-10-08T12:25:14\nAccording to the policy documents:\n\n“Claims require an invoice and a discharge summary.” [1]\n\nSummit Advanced 2026-10-08T12:25:14\nI cannot determine that from the available policy documents. Please check the policy scope and effective date, or upload the relevant terms.",
+      "citations": [
+        {
+          "number": 1,
+          "chunkId": "5d27062d-7958-4fd5-b110-a1b4f918d1cf",
+          "documentId": "c4422da2-a5eb-448f-8337-d733f6deb9ca",
+          "documentName": "advanced-terms.pdf",
+          "versionId": "209e9300-4285-4ac0-b2f2-66fdcef49e2c",
+          "version": 1,
+          "source": {
+            "pageNumber": 1,
+            "kind": "paragraph"
+          },
+          "quote": "Claims require an invoice and a discharge summary.",
+          "sourceUrl": "/api/v1/documents/c4422da2-a5eb-448f-8337-d733f6deb9ca/source/209e9300-4285-4ac0-b2f2-66fdcef49e2c",
+          "policyId": "57b1be10-c7fb-4bb3-a6e3-2e8d622c7451",
+          "policyName": "Horizon Advanced 2026-10-08T12:25:14"
+        }
+      ],
+      "insufficientEvidence": true,
+      "conflict": false,
+      "grounding": "verified_quotes",
+      "id": "dd7eb476-07c1-4ab6-b2e9-99707d02b89d",
+      "conversationId": "1db0e349-c776-44f8-a0e1-ebb785b19d9d",
+      "asOfDate": "2026-10-08",
+      "model": "ollama:qwen2.5:1.5b",
+      "usedHistory": false,
+      "comparison": [
+        {
+          "policyId": "57b1be10-c7fb-4bb3-a6e3-2e8d622c7451",
+          "policyName": "Horizon Advanced 2026-10-08T12:25:14",
+          "insufficientEvidence": false,
+          "conflict": false
+        },
+        {
+          "policyId": "2b0f18e0-3e34-4735-8e88-580c265b15a2",
+          "policyName": "Summit Advanced 2026-10-08T12:25:14",
+          "insufficientEvidence": true,
+          "conflict": false
+        }
+      ],
+      "processingTimeMs": 8405,
+      "tokenUsage": {
+        "inputTokens": 467,
+        "outputTokens": 29
+      },
+      "firstEventMs": 39
+    }
+  ],
+  "checks": [
+    "Two real PDF policies and eight CSV clause rows uploaded, scanned, embedded and indexed",
+    "Real local generation: room-rent answer, anaphoric follow-up, absent benefit abstention",
+    "Two-policy comparison with separately validated quotes and globally numbered citations",
+    "Partial comparison labels insufficient evidence for the unsupported policy",
+    "History reopened with context metadata; no raw memory exposed",
+    "Eight labelled retrieval queries: semantic baseline, hybrid RRF and local reranker ablation; Recall@3/MRR gates"
+  ],
+  "comparisonPolicyId": "2b0f18e0-3e34-4735-8e88-580c265b15a2",
+  "evaluation": [
+    {
+      "mode": "semantic",
+      "k": 3,
+      "caseCount": 8,
+      "average": {
+        "recall": 1,
+        "precision": 0.3333333333333333,
+        "mrr": 1,
+        "ndcg": 1
+      },
+      "cases": [
+        {
+          "question": "R-17 ambulance reimbursement",
+          "expectedClause": "R-17",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "11bac612-1bae-4d0a-8e8f-fc488600c0d8",
+              "text": "Clause: R-17 | Terms: Emergency ambulance reimbursement schedule is limited to INR 2000 per event."
+            },
+            {
+              "chunkId": "6d40a1a0-8e1b-4747-b211-70e2ea5627f7",
+              "text": "Clause: R-18 | Terms: Emergency ambulance reimbursement schedule is limited to INR 4000 per event."
+            },
+            {
+              "chunkId": "d9740422-c92e-4b0c-8e6c-65f93503ba85",
+              "text": "Clause: D-21 | Terms: Dental accident schedule covers extraction following a covered accident only."
+            }
+          ]
+        },
+        {
+          "question": "R-18 ambulance reimbursement",
+          "expectedClause": "R-18",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "6d40a1a0-8e1b-4747-b211-70e2ea5627f7",
+              "text": "Clause: R-18 | Terms: Emergency ambulance reimbursement schedule is limited to INR 4000 per event."
+            },
+            {
+              "chunkId": "11bac612-1bae-4d0a-8e8f-fc488600c0d8",
+              "text": "Clause: R-17 | Terms: Emergency ambulance reimbursement schedule is limited to INR 2000 per event."
+            },
+            {
+              "chunkId": "d9740422-c92e-4b0c-8e6c-65f93503ba85",
+              "text": "Clause: D-21 | Terms: Dental accident schedule covers extraction following a covered accident only."
+            }
+          ]
+        },
+        {
+          "question": "D-21 dental accident extraction",
+          "expectedClause": "D-21",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "d9740422-c92e-4b0c-8e6c-65f93503ba85",
+              "text": "Clause: D-21 | Terms: Dental accident schedule covers extraction following a covered accident only."
+            },
+            {
+              "chunkId": "76de21f2-358e-43db-b564-a959c069e028",
+              "text": "Clause: D-22 | Terms: Dental illness schedule excludes routine cleaning and cosmetic treatment."
+            },
+            {
+              "chunkId": "11bac612-1bae-4d0a-8e8f-fc488600c0d8",
+              "text": "Clause: R-17 | Terms: Emergency ambulance reimbursement schedule is limited to INR 2000 per event."
+            }
+          ]
+        },
+        {
+          "question": "D-22 routine dental cleaning",
+          "expectedClause": "D-22",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "76de21f2-358e-43db-b564-a959c069e028",
+              "text": "Clause: D-22 | Terms: Dental illness schedule excludes routine cleaning and cosmetic treatment."
+            },
+            {
+              "chunkId": "d9740422-c92e-4b0c-8e6c-65f93503ba85",
+              "text": "Clause: D-21 | Terms: Dental accident schedule covers extraction following a covered accident only."
+            },
+            {
+              "chunkId": "4fa56dd2-82a6-4459-b1cc-6d434f28c372",
+              "text": "Clause: C-31 | Terms: Claim filing schedule requires an invoice and discharge summary within 30 days."
+            }
+          ]
+        },
+        {
+          "question": "C-31 claim invoice deadline",
+          "expectedClause": "C-31",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "4fa56dd2-82a6-4459-b1cc-6d434f28c372",
+              "text": "Clause: C-31 | Terms: Claim filing schedule requires an invoice and discharge summary within 30 days."
+            },
+            {
+              "chunkId": "5ed2c969-094c-49e8-b5b6-1f50770c9ed4",
+              "text": "Clause: C-32 | Terms: Claim appeal schedule requires a written objection within 60 days."
+            },
+            {
+              "chunkId": "11bac612-1bae-4d0a-8e8f-fc488600c0d8",
+              "text": "Clause: R-17 | Terms: Emergency ambulance reimbursement schedule is limited to INR 2000 per event."
+            }
+          ]
+        },
+        {
+          "question": "C-32 appeal written objection",
+          "expectedClause": "C-32",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "5ed2c969-094c-49e8-b5b6-1f50770c9ed4",
+              "text": "Clause: C-32 | Terms: Claim appeal schedule requires a written objection within 60 days."
+            },
+            {
+              "chunkId": "4fa56dd2-82a6-4459-b1cc-6d434f28c372",
+              "text": "Clause: C-31 | Terms: Claim filing schedule requires an invoice and discharge summary within 30 days."
+            },
+            {
+              "chunkId": "11bac612-1bae-4d0a-8e8f-fc488600c0d8",
+              "text": "Clause: R-17 | Terms: Emergency ambulance reimbursement schedule is limited to INR 2000 per event."
+            }
+          ]
+        },
+        {
+          "question": "How long is the wait for maternity benefits?",
+          "expectedClause": "M-41",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "d042b13b-2e98-4905-b957-3982f76cab6b",
+              "text": "Clause: M-41 | Terms: Maternity schedule has a waiting period of 36 months."
+            },
+            {
+              "chunkId": "f85b5f6e-414d-4ecd-896e-d33148ccc170",
+              "text": "Clause: M-42 | Terms: Newborn schedule requires enrollment within 90 days of birth."
+            },
+            {
+              "chunkId": "5ed2c969-094c-49e8-b5b6-1f50770c9ed4",
+              "text": "Clause: C-32 | Terms: Claim appeal schedule requires a written objection within 60 days."
+            }
+          ]
+        },
+        {
+          "question": "By when should a newborn be enrolled after birth?",
+          "expectedClause": "M-42",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "f85b5f6e-414d-4ecd-896e-d33148ccc170",
+              "text": "Clause: M-42 | Terms: Newborn schedule requires enrollment within 90 days of birth."
+            },
+            {
+              "chunkId": "d042b13b-2e98-4905-b957-3982f76cab6b",
+              "text": "Clause: M-41 | Terms: Maternity schedule has a waiting period of 36 months."
+            },
+            {
+              "chunkId": "4fa56dd2-82a6-4459-b1cc-6d434f28c372",
+              "text": "Clause: C-31 | Terms: Claim filing schedule requires an invoice and discharge summary within 30 days."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "k": 3,
+      "caseCount": 8,
+      "average": {
+        "recall": 1,
+        "precision": 0.3333333333333333,
+        "mrr": 1,
+        "ndcg": 1
+      },
+      "cases": [
+        {
+          "question": "R-17 ambulance reimbursement",
+          "expectedClause": "R-17",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "11bac612-1bae-4d0a-8e8f-fc488600c0d8",
+              "text": "Clause: R-17 | Terms: Emergency ambulance reimbursement schedule is limited to INR 2000 per event."
+            },
+            {
+              "chunkId": "6d40a1a0-8e1b-4747-b211-70e2ea5627f7",
+              "text": "Clause: R-18 | Terms: Emergency ambulance reimbursement schedule is limited to INR 4000 per event."
+            },
+            {
+              "chunkId": "d9740422-c92e-4b0c-8e6c-65f93503ba85",
+              "text": "Clause: D-21 | Terms: Dental accident schedule covers extraction following a covered accident only."
+            }
+          ]
+        },
+        {
+          "question": "R-18 ambulance reimbursement",
+          "expectedClause": "R-18",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "6d40a1a0-8e1b-4747-b211-70e2ea5627f7",
+              "text": "Clause: R-18 | Terms: Emergency ambulance reimbursement schedule is limited to INR 4000 per event."
+            },
+            {
+              "chunkId": "11bac612-1bae-4d0a-8e8f-fc488600c0d8",
+              "text": "Clause: R-17 | Terms: Emergency ambulance reimbursement schedule is limited to INR 2000 per event."
+            },
+            {
+              "chunkId": "d9740422-c92e-4b0c-8e6c-65f93503ba85",
+              "text": "Clause: D-21 | Terms: Dental accident schedule covers extraction following a covered accident only."
+            }
+          ]
+        },
+        {
+          "question": "D-21 dental accident extraction",
+          "expectedClause": "D-21",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "d9740422-c92e-4b0c-8e6c-65f93503ba85",
+              "text": "Clause: D-21 | Terms: Dental accident schedule covers extraction following a covered accident only."
+            },
+            {
+              "chunkId": "76de21f2-358e-43db-b564-a959c069e028",
+              "text": "Clause: D-22 | Terms: Dental illness schedule excludes routine cleaning and cosmetic treatment."
+            },
+            {
+              "chunkId": "11bac612-1bae-4d0a-8e8f-fc488600c0d8",
+              "text": "Clause: R-17 | Terms: Emergency ambulance reimbursement schedule is limited to INR 2000 per event."
+            }
+          ]
+        },
+        {
+          "question": "D-22 routine dental cleaning",
+          "expectedClause": "D-22",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "76de21f2-358e-43db-b564-a959c069e028",
+              "text": "Clause: D-22 | Terms: Dental illness schedule excludes routine cleaning and cosmetic treatment."
+            },
+            {
+              "chunkId": "d9740422-c92e-4b0c-8e6c-65f93503ba85",
+              "text": "Clause: D-21 | Terms: Dental accident schedule covers extraction following a covered accident only."
+            },
+            {
+              "chunkId": "4fa56dd2-82a6-4459-b1cc-6d434f28c372",
+              "text": "Clause: C-31 | Terms: Claim filing schedule requires an invoice and discharge summary within 30 days."
+            }
+          ]
+        },
+        {
+          "question": "C-31 claim invoice deadline",
+          "expectedClause": "C-31",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "4fa56dd2-82a6-4459-b1cc-6d434f28c372",
+              "text": "Clause: C-31 | Terms: Claim filing schedule requires an invoice and discharge summary within 30 days."
+            },
+            {
+              "chunkId": "5ed2c969-094c-49e8-b5b6-1f50770c9ed4",
+              "text": "Clause: C-32 | Terms: Claim appeal schedule requires a written objection within 60 days."
+            },
+            {
+              "chunkId": "11bac612-1bae-4d0a-8e8f-fc488600c0d8",
+              "text": "Clause: R-17 | Terms: Emergency ambulance reimbursement schedule is limited to INR 2000 per event."
+            }
+          ]
+        },
+        {
+          "question": "C-32 appeal written objection",
+          "expectedClause": "C-32",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "5ed2c969-094c-49e8-b5b6-1f50770c9ed4",
+              "text": "Clause: C-32 | Terms: Claim appeal schedule requires a written objection within 60 days."
+            },
+            {
+              "chunkId": "4fa56dd2-82a6-4459-b1cc-6d434f28c372",
+              "text": "Clause: C-31 | Terms: Claim filing schedule requires an invoice and discharge summary within 30 days."
+            },
+            {
+              "chunkId": "11bac612-1bae-4d0a-8e8f-fc488600c0d8",
+              "text": "Clause: R-17 | Terms: Emergency ambulance reimbursement schedule is limited to INR 2000 per event."
+            }
+          ]
+        },
+        {
+          "question": "How long is the wait for maternity benefits?",
+          "expectedClause": "M-41",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "d042b13b-2e98-4905-b957-3982f76cab6b",
+              "text": "Clause: M-41 | Terms: Maternity schedule has a waiting period of 36 months."
+            },
+            {
+              "chunkId": "f85b5f6e-414d-4ecd-896e-d33148ccc170",
+              "text": "Clause: M-42 | Terms: Newborn schedule requires enrollment within 90 days of birth."
+            },
+            {
+              "chunkId": "5ed2c969-094c-49e8-b5b6-1f50770c9ed4",
+              "text": "Clause: C-32 | Terms: Claim appeal schedule requires a written objection within 60 days."
+            }
+          ]
+        },
+        {
+          "question": "By when should a newborn be enrolled after birth?",
+          "expectedClause": "M-42",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "f85b5f6e-414d-4ecd-896e-d33148ccc170",
+              "text": "Clause: M-42 | Terms: Newborn schedule requires enrollment within 90 days of birth."
+            },
+            {
+              "chunkId": "d042b13b-2e98-4905-b957-3982f76cab6b",
+              "text": "Clause: M-41 | Terms: Maternity schedule has a waiting period of 36 months."
+            },
+            {
+              "chunkId": "4fa56dd2-82a6-4459-b1cc-6d434f28c372",
+              "text": "Clause: C-31 | Terms: Claim filing schedule requires an invoice and discharge summary within 30 days."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "hybrid-reranked",
+      "k": 3,
+      "caseCount": 8,
+      "average": {
+        "recall": 1,
+        "precision": 0.3333333333333333,
+        "mrr": 1,
+        "ndcg": 1
+      },
+      "cases": [
+        {
+          "question": "R-17 ambulance reimbursement",
+          "expectedClause": "R-17",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "11bac612-1bae-4d0a-8e8f-fc488600c0d8",
+              "text": "Clause: R-17 | Terms: Emergency ambulance reimbursement schedule is limited to INR 2000 per event."
+            },
+            {
+              "chunkId": "6d40a1a0-8e1b-4747-b211-70e2ea5627f7",
+              "text": "Clause: R-18 | Terms: Emergency ambulance reimbursement schedule is limited to INR 4000 per event."
+            },
+            {
+              "chunkId": "d9740422-c92e-4b0c-8e6c-65f93503ba85",
+              "text": "Clause: D-21 | Terms: Dental accident schedule covers extraction following a covered accident only."
+            }
+          ]
+        },
+        {
+          "question": "R-18 ambulance reimbursement",
+          "expectedClause": "R-18",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "6d40a1a0-8e1b-4747-b211-70e2ea5627f7",
+              "text": "Clause: R-18 | Terms: Emergency ambulance reimbursement schedule is limited to INR 4000 per event."
+            },
+            {
+              "chunkId": "11bac612-1bae-4d0a-8e8f-fc488600c0d8",
+              "text": "Clause: R-17 | Terms: Emergency ambulance reimbursement schedule is limited to INR 2000 per event."
+            },
+            {
+              "chunkId": "d9740422-c92e-4b0c-8e6c-65f93503ba85",
+              "text": "Clause: D-21 | Terms: Dental accident schedule covers extraction following a covered accident only."
+            }
+          ]
+        },
+        {
+          "question": "D-21 dental accident extraction",
+          "expectedClause": "D-21",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "d9740422-c92e-4b0c-8e6c-65f93503ba85",
+              "text": "Clause: D-21 | Terms: Dental accident schedule covers extraction following a covered accident only."
+            },
+            {
+              "chunkId": "76de21f2-358e-43db-b564-a959c069e028",
+              "text": "Clause: D-22 | Terms: Dental illness schedule excludes routine cleaning and cosmetic treatment."
+            },
+            {
+              "chunkId": "11bac612-1bae-4d0a-8e8f-fc488600c0d8",
+              "text": "Clause: R-17 | Terms: Emergency ambulance reimbursement schedule is limited to INR 2000 per event."
+            }
+          ]
+        },
+        {
+          "question": "D-22 routine dental cleaning",
+          "expectedClause": "D-22",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "76de21f2-358e-43db-b564-a959c069e028",
+              "text": "Clause: D-22 | Terms: Dental illness schedule excludes routine cleaning and cosmetic treatment."
+            },
+            {
+              "chunkId": "d9740422-c92e-4b0c-8e6c-65f93503ba85",
+              "text": "Clause: D-21 | Terms: Dental accident schedule covers extraction following a covered accident only."
+            },
+            {
+              "chunkId": "4fa56dd2-82a6-4459-b1cc-6d434f28c372",
+              "text": "Clause: C-31 | Terms: Claim filing schedule requires an invoice and discharge summary within 30 days."
+            }
+          ]
+        },
+        {
+          "question": "C-31 claim invoice deadline",
+          "expectedClause": "C-31",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "4fa56dd2-82a6-4459-b1cc-6d434f28c372",
+              "text": "Clause: C-31 | Terms: Claim filing schedule requires an invoice and discharge summary within 30 days."
+            },
+            {
+              "chunkId": "5ed2c969-094c-49e8-b5b6-1f50770c9ed4",
+              "text": "Clause: C-32 | Terms: Claim appeal schedule requires a written objection within 60 days."
+            },
+            {
+              "chunkId": "11bac612-1bae-4d0a-8e8f-fc488600c0d8",
+              "text": "Clause: R-17 | Terms: Emergency ambulance reimbursement schedule is limited to INR 2000 per event."
+            }
+          ]
+        },
+        {
+          "question": "C-32 appeal written objection",
+          "expectedClause": "C-32",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "5ed2c969-094c-49e8-b5b6-1f50770c9ed4",
+              "text": "Clause: C-32 | Terms: Claim appeal schedule requires a written objection within 60 days."
+            },
+            {
+              "chunkId": "4fa56dd2-82a6-4459-b1cc-6d434f28c372",
+              "text": "Clause: C-31 | Terms: Claim filing schedule requires an invoice and discharge summary within 30 days."
+            },
+            {
+              "chunkId": "11bac612-1bae-4d0a-8e8f-fc488600c0d8",
+              "text": "Clause: R-17 | Terms: Emergency ambulance reimbursement schedule is limited to INR 2000 per event."
+            }
+          ]
+        },
+        {
+          "question": "How long is the wait for maternity benefits?",
+          "expectedClause": "M-41",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "d042b13b-2e98-4905-b957-3982f76cab6b",
+              "text": "Clause: M-41 | Terms: Maternity schedule has a waiting period of 36 months."
+            },
+            {
+              "chunkId": "f85b5f6e-414d-4ecd-896e-d33148ccc170",
+              "text": "Clause: M-42 | Terms: Newborn schedule requires enrollment within 90 days of birth."
+            },
+            {
+              "chunkId": "5ed2c969-094c-49e8-b5b6-1f50770c9ed4",
+              "text": "Clause: C-32 | Terms: Claim appeal schedule requires a written objection within 60 days."
+            }
+          ]
+        },
+        {
+          "question": "By when should a newborn be enrolled after birth?",
+          "expectedClause": "M-42",
+          "metrics": {
+            "recall": 1,
+            "precision": 0.3333333333333333,
+            "mrr": 1,
+            "ndcg": 1
+          },
+          "retrieved": [
+            {
+              "chunkId": "f85b5f6e-414d-4ecd-896e-d33148ccc170",
+              "text": "Clause: M-42 | Terms: Newborn schedule requires enrollment within 90 days of birth."
+            },
+            {
+              "chunkId": "d042b13b-2e98-4905-b957-3982f76cab6b",
+              "text": "Clause: M-41 | Terms: Maternity schedule has a waiting period of 36 months."
+            },
+            {
+              "chunkId": "4fa56dd2-82a6-4459-b1cc-6d434f28c372",
+              "text": "Clause: C-31 | Terms: Claim filing schedule requires an invoice and discharge summary within 30 days."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "qualityChecks": {
+    "answerCases": 5,
+    "verifiedQuotes": 5
+  },
+  "finishedAt": "2026-10-08T12:29:03.028Z"
+}

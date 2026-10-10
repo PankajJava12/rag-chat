@@ -1,0 +1,18 @@
+{
+  "validatedAt": "2026-10-09T05:33:32.044Z",
+  "traceId": "efa8859d8e96bf3799c0abf11608ca02",
+  "spanNames": [
+    "POST /documents/complete-upload",
+    "queue.publish",
+    "ingestion.attempt",
+    "embedding.document"
+  ],
+  "checks": [
+    "One trace joins API upload completion, SQS publication and native ingestion worker",
+    "Grafana dashboard provisioned",
+    "Prometheus scrapes both native processes",
+    "Real worker stop triggered a Prometheus alert delivered to local Alertmanager",
+    "Worker restarted and scrape recovered"
+  ],
+  "alertDrill": true
+}

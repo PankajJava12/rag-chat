@@ -1,0 +1,34 @@
+{
+  "validatedAt": "2026-10-09T05:55:33.305Z",
+  "environment": "local Docker Compose",
+  "checks": [
+    {
+      "name": "Advisor cannot read audit logs",
+      "status": 403
+    },
+    {
+      "name": "Admin can read tenant audit metadata",
+      "status": 200
+    },
+    {
+      "name": "Logout revokes session",
+      "status": 204
+    },
+    {
+      "name": "Copied cookie rejected after logout",
+      "status": 401
+    },
+    {
+      "name": "Copied bearer rejected after logout",
+      "status": 401
+    },
+    {
+      "name": "Other session still works",
+      "status": 200
+    },
+    {
+      "name": "Advisor logout",
+      "status": 204
+    }
+  ]
+}

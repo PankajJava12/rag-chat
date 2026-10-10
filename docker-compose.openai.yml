@@ -1,0 +1,38 @@
+# OpenAI application overlay; keep the original Ollama definitions unchanged.
+# Apply after docker-compose.localstack.yml to preserve current S3/SQS storage.
+x-openai: &openai
+  EMBEDDING_PROVIDER: openai
+  EMBEDDING_DIMENSIONS: 1536
+  OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+  OPENAI_EMBEDDING_MODEL: ${OPENAI_EMBEDDING_MODEL:-text-embedding-3-small}
+  ALLOW_EXTERNAL_AI: "true"
+  METRICS_ENABLED: "true"
+  METRICS_BIND_HOST: "0.0.0.0"
+  TRACING_ENABLED: "true"
+  OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: http://tempo:4318/v1/traces
+services:
+  postgres:
+    # Port 5432 is occupied by another project on this machine.
+    ports: !override
+      - "127.0.0.1:5433:5432"
+  api:
+    environment:
+      <<: *openai
+      CHAT_PROVIDER: openai
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4.1}
+      OTEL_SERVICE_NAME: advisor-api
+      METRICS_PORT: 9464
+    volumes: !override
+      - ./.local/host-documents:/data/documents
+  worker:
+    environment:
+      <<: *openai
+      OTEL_SERVICE_NAME: advisor-worker
+      METRICS_PORT: 9465
+    volumes: !override
+      - ./.local/host-documents:/data/documents:ro
+    depends_on: !override
+      migrate: { condition: service_completed_successfully }
+      redis: { condition: service_healthy }
+      clamav: { condition: service_healthy }
+      localstack: { condition: service_healthy }

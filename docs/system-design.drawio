@@ -1,0 +1,413 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" agent="Codex" version="24.7.17">
+  <diagram id="p1" name="1 - System overview">
+    <mxGraphModel dx="1600" dy="1150" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1150" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="AI Advisor Assistant — implemented system architecture" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;spacing=10;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="20" width="1450" height="45" />
+        </mxCell>
+        <mxCell id="sub" value="API and worker are separate processes. PostgreSQL is the durable authority. Cloud/provider boxes are configurable alternatives, not simultaneous requirements." style="rounded=1;whiteSpace=wrap;html=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;spacing=10;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="70" width="1450" height="55" />
+        </mxCell>
+        <mxCell id="web" value="React / Vite frontend&#10;DocumentLibrary + AdvisorChat" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="170" width="280" height="100" />
+        </mxCell>
+        <mxCell id="api" value="Express API&#10;Authentication / RBAC / origins&#10;Upload, search, chat, sources" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="450" y="170" width="300" height="115" />
+        </mxCell>
+        <mxCell id="auth" value="Local JWT + scrypt&#10;or Cognito access-token verification&#10;Server-side membership checks" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="360" width="280" height="110" />
+        </mxCell>
+        <mxCell id="chat" value="ChatService + LangGraph&#10;Rewrite → retrieve → generate&#10;Validate → persist → deliver" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="890" y="170" width="310" height="115" />
+        </mxCell>
+        <mxCell id="db" value="PostgreSQL + pgvector + RLS&#10;Policies / versions / active chunks&#10;Jobs + notification outbox&#10;Embedding cache / chat / audit" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;spacing=10;align=center;verticalAlign=middle;shape=cylinder;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="450" y="440" width="330" height="165" />
+        </mxCell>
+        <mxCell id="redis" value="Redis&#10;Encrypted query-embedding cache&#10;Tenant + model + dimensions + query&#10;Default TTL: 300 seconds" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;spacing=10;align=center;verticalAlign=middle;shape=cylinder;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="890" y="440" width="310" height="120" />
+        </mxCell>
+        <mxCell id="storage" value="Encrypted original files&#10;Local filesystem OR S3&#10;LocalStack: encrypted local mirror&#10;S3 server-side encryption too" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;spacing=10;align=center;verticalAlign=middle;shape=cylinder;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="660" width="290" height="130" />
+        </mxCell>
+        <mxCell id="sqs" value="Optional SQS notifications&#10;Job hints only; DB owns leases&#10;DB ingestion_notifications dispatch" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="450" y="730" width="330" height="105" />
+        </mxCell>
+        <mxCell id="worker" value="Ingestion worker&#10;Claim PostgreSQL job + fenced lease&#10;Scan → parse/OCR → chunk → embed&#10;Activate complete generation" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="890" y="730" width="310" height="130" />
+        </mxCell>
+        <mxCell id="scan" value="ClamAV + parser worker thread&#10;Poppler / Tesseract / Mammoth&#10;ExcelJS / csv-parse" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1260" y="730" width="280" height="130" />
+        </mxCell>
+        <mxCell id="models" value="AI adapters&#10;OpenAI OR Gemini OR Ollama&#10;Separate embedding + chat models&#10;External AI requires configuration gate" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1260" y="320" width="280" height="145" />
+        </mxCell>
+        <mxCell id="obs" value="Observability&#10;Pino logs / OTel traces → Tempo&#10;Prometheus → Grafana / Alertmanager" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="450" y="940" width="750" height="110" />
+        </mxCell>
+        <mxCell id="e16" value="HTTP / SSE" source="web" target="api" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e17" value="verify" source="api" target="auth" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e18" value="tenant transactions" source="api" target="db" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e19" value="upload / authorized download" source="api" target="storage" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e20" value="scoped question" source="api" target="chat" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e21" value="retrieve / history / final recheck" source="chat" target="db" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e22" value="query vector cache" source="chat" target="redis" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e23" value="embedding / evidence JSON" source="chat" target="models" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e24" value="read + decrypt" source="worker" target="storage" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e25" value="claim / heartbeat / write / publish" source="worker" target="db" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e26" value="durable notification rows" source="db" target="sqs" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e27" value="wake-up hints" source="sqs" target="worker" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e28" value="scan + isolated parse" source="worker" target="scan" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e29" value="document embeddings" source="worker" target="models" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e30" value="metrics / traces / logs" source="api" target="obs" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;dashed=1;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e31" value="metrics / traces / logs" source="worker" target="obs" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;dashed=1;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="p2" name="2 - Document ingestion">
+    <mxGraphModel dx="1600" dy="1150" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1350" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Document ingestion — asynchronous, versioned, generation-based" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;spacing=10;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="20" width="1450" height="45" />
+        </mxCell>
+        <mxCell id="sub" value="Solid arrows show successful flow; dashed arrows show optional notification and retry paths. Upload URL is an API route, not a direct S3 presigned URL." style="rounded=1;whiteSpace=wrap;html=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;spacing=10;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="70" width="1450" height="60" />
+        </mxCell>
+        <mxCell id="reserve" value="1. Reserve upload&#10;POST /documents/upload-url&#10;Admin + idempotency + metadata&#10;Create PENDING_UPLOAD version" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="170" width="280" height="140" />
+        </mxCell>
+        <mxCell id="put" value="2. Upload bytes&#10;PUT /documents/uploads/:versionId&#10;Owner / expiry / length / MIME&#10;SHA-256 + byte validation" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="400" y="170" width="280" height="140" />
+        </mxCell>
+        <mxCell id="store" value="3. Encrypt original&#10;AES-256-GCM + object context&#10;Immutable local/S3 storage&#10;Record uploaded_at" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="740" y="170" width="280" height="140" />
+        </mxCell>
+        <mxCell id="complete" value="4. Complete upload&#10;POST /documents/complete-upload&#10;Create job + new generation&#10;Version → UPLOADED; HTTP 202" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1080" y="170" width="280" height="140" />
+        </mxCell>
+        <mxCell id="claim" value="5. Worker claims DB job&#10;FOR UPDATE SKIP LOCKED&#10;90-second lease + random token&#10;Heartbeat every 20 seconds" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1080" y="410" width="280" height="140" />
+        </mxCell>
+        <mxCell id="verify" value="6. Read / decrypt / verify&#10;Repeat hash + size checks&#10;ClamAV scan + byte validation&#10;Version → PROCESSING / CLEAN" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="740" y="410" width="280" height="140" />
+        </mxCell>
+        <mxCell id="parse" value="7. Isolated parsing&#10;256 MiB worker-thread heap limit&#10;Five-minute parse timeout&#10;Format-specific source metadata" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="400" y="410" width="280" height="140" />
+        </mxCell>
+        <mxCell id="format" value="PDF: pdftotext -layout per page&#10;&lt;30 extracted characters → OCR&#10;DOCX: headings + table rows&#10;XLSX/CSV: header-labelled rows" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="410" width="280" height="140" />
+        </mxCell>
+        <mxCell id="chunk" value="8. Normalize and chunk&#10;cl100k_base token accounting&#10;650-token size / 90 overlap&#10;Paragraph packing; table row intact" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="400" y="680" width="280" height="140" />
+        </mxCell>
+        <mxCell id="cache" value="9. Deduplicate embedding work&#10;SHA-256 of chunk text&#10;Postgres cache scoped by tenant&#10;+ model + dimensions" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="740" y="680" width="280" height="140" />
+        </mxCell>
+        <mxCell id="embed" value="10. Embed only cache misses&#10;Default batch: 8; max: 32&#10;OpenAI 1536 / Gemini 768&#10;Ollama 768; validate vectors" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1080" y="680" width="280" height="140" />
+        </mxCell>
+        <mxCell id="write" value="11. Persist generation batches&#10;Encrypted text + source metadata&#10;Vector + tenant-keyed tsvector&#10;Fenced lease checked before writes" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1080" y="940" width="280" height="140" />
+        </mxCell>
+        <mxCell id="publish" value="12. Atomic generation activation&#10;Verify exact expected chunk count&#10;Set active_generation_id + INDEXED&#10;Job COMPLETED + audit" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="740" y="940" width="280" height="140" />
+        </mxCell>
+        <mxCell id="ready" value="Searchable active generation&#10;Queries exclude partial generations&#10;Old generation remains during reindex&#10;Applicable version rules still apply" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="400" y="940" width="280" height="140" />
+        </mxCell>
+        <mxCell id="retry" value="Failure / crash recovery&#10;Retryable jobs: exponential delay + jitter&#10;Maximum 3 job attempts&#10;Expired lease can be reclaimed&#10;Terminal FAILED; fenced stale worker" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#f8cecc;strokeColor=#b85450;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="940" width="280" height="140" />
+        </mxCell>
+        <mxCell id="e19" value="" source="reserve" target="put" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e20" value="" source="put" target="store" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e21" value="" source="store" target="complete" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e22" value="" source="complete" target="claim" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e23" value="" source="claim" target="verify" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e24" value="" source="verify" target="parse" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e25" value="" source="parse" target="chunk" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e26" value="" source="chunk" target="cache" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e27" value="" source="cache" target="embed" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e28" value="" source="embed" target="write" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e29" value="" source="write" target="publish" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e30" value="" source="publish" target="ready" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e31" value="parser choices" source="parse" target="format" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;dashed=1;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="notify" value="DB trigger inserts ingestion_notifications in job transaction&#10;Worker dispatches/retries SQS publication; PostgreSQL polling remains authoritative" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="400" y="1170" width="960" height="100" />
+        </mxCell>
+        <mxCell id="e33" value="optional SQS profile" source="complete" target="notify" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;dashed=1;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e34" value="processing failure" source="write" target="retry" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;dashed=1;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e35" value="when retry due" source="retry" target="claim" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;dashed=1;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="p3" name="3 - Query and answer pipeline">
+    <mxGraphModel dx="1600" dy="1150" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Query pipeline — scoped hybrid retrieval and verified quotations" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;spacing=10;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="20" width="1450" height="45" />
+        </mxCell>
+        <mxCell id="sub" value="LangGraph runs rewriting → retrieving → generating → validating. ChatService owns request reservation, scope, persistence and final authorization/version checks." style="rounded=1;whiteSpace=wrap;html=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;spacing=10;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="70" width="1580" height="60" />
+        </mxCell>
+        <mxCell id="request" value="1. POST conversation message&#10;Question + Idempotency-Key&#10;Authentication + ownership + rate limit&#10;Abort on disconnect / timeout" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="170" width="300" height="160" />
+        </mxCell>
+        <mxCell id="reserve" value="2. Reserve chat_runs&#10;Question fingerprint + request key&#10;Replay completed same-key request&#10;One active run per conversation" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="440" y="170" width="300" height="160" />
+        </mxCell>
+        <mxCell id="memory" value="3. Rewrite follow-up&#10;Deterministic rules, not an LLM&#10;Encrypted bounded question memory&#10;Assistant answers never evidence" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="820" y="170" width="300" height="160" />
+        </mxCell>
+        <mxCell id="scope" value="4. Resolve applicable versions&#10;Tenant + policy + as-of date / IDs&#10;Effective dates + supersession&#10;Require CLEAN + active generation" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1200" y="170" width="300" height="160" />
+        </mxCell>
+        <mxCell id="embed" value="5a. Semantic branch&#10;Compatible model profile only&#10;Query embedding via Redis cache&#10;pgvector cosine distance" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1200" y="410" width="300" height="160" />
+        </mxCell>
+        <mxCell id="keyword" value="5b. Keyword branch&#10;Normalize + HMAC tenant lexemes&#10;OR tsquery / ts_rank_cd / GIN&#10;Includes older embedding profiles" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="820" y="410" width="300" height="160" />
+        </mxCell>
+        <mxCell id="fusion" value="6. Fuse and rerank&#10;RRF: sum 1 / (60 + rank)&#10;Decrypt candidate text / metadata&#10;Lexical + cosine + heading reranker&#10;Default 20 candidates/branch → top 8" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="440" y="410" width="300" height="160" />
+        </mxCell>
+        <mxCell id="context" value="7. Build evidence context&#10;Recover PDF columns / paragraphs&#10;Rerank excerpts + deduplicate&#10;Filter suspicious instructions&#10;Default budget: 2000 tokens" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="410" width="300" height="160" />
+        </mxCell>
+        <mxCell id="guard" value="8. Evidence / topic guards&#10;No evidence → abstain&#10;Suspicious question → abstain&#10;Matching complete table may bypass LLM" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="720" width="300" height="160" />
+        </mxCell>
+        <mxCell id="generate" value="9. Structured generation&#10;Question + S1/S2 evidence only&#10;JSON: status + sourceId + quote&#10;ANSWER / INSUFFICIENT / CONFLICT&#10;Max four citations" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="440" y="720" width="300" height="160" />
+        </mxCell>
+        <mxCell id="validate" value="10. Validate quotations&#10;Known source ID + contiguous quote&#10;Whole sentences / paragraphs&#10;Complete table; topic check&#10;Invalid draft → abstention" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="820" y="720" width="300" height="160" />
+        </mxCell>
+        <mxCell id="conflict" value="Narrow deterministic conflict rule&#10;Same waiting-period clause&#10;Different integer values / same units&#10;Otherwise model proposes conflict" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1200" y="720" width="300" height="160" />
+        </mxCell>
+        <mxCell id="recheck" value="11. Reauthorize + recheck sources&#10;Version set + active generations&#10;All evidence chunks checked&#10;Concurrent changes → retry error" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="820" y="1010" width="300" height="160" />
+        </mxCell>
+        <mxCell id="persist" value="12. Atomic persistence&#10;Encrypted question + answer&#10;Encrypted run response for replay&#10;Update question memory + audit" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="440" y="1010" width="300" height="160" />
+        </mxCell>
+        <mxCell id="deliver" value="13. Deliver validated answer&#10;SSE status + heartbeat during work&#10;Validated paragraphs after commit&#10;Citation links to original version" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="1010" width="300" height="160" />
+        </mxCell>
+        <mxCell id="e19" value="" source="request" target="reserve" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e20" value="" source="reserve" target="memory" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e21" value="" source="memory" target="scope" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e22" value="" source="scope" target="embed" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e23" value="" source="scope" target="keyword" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e24" value="" source="embed" target="fusion" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e25" value="" source="keyword" target="fusion" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e26" value="" source="fusion" target="context" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e27" value="" source="context" target="guard" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e28" value="" source="guard" target="generate" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e29" value="" source="generate" target="validate" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e30" value="" source="validate" target="recheck" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e31" value="" source="recheck" target="persist" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e32" value="" source="persist" target="deliver" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e33" value="can override draft" source="conflict" target="validate" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;dashed=1;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e34" value="abstention / table shortcut" source="guard" target="validate" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;dashed=1;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="foot" value="Comparison mode executes one scoped workflow per policy sequentially, then combines verified quotes with renumbered citations. Scores are ranking signals, not confidence probabilities." style="rounded=1;whiteSpace=wrap;html=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;spacing=10;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="1260" width="1580" height="80" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="p4" name="4 - Data model and boundaries">
+    <mxGraphModel dx="1600" dy="1150" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1150" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Core data relationships and security boundaries" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;spacing=10;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="20" width="1450" height="45" />
+        </mxCell>
+        <mxCell id="tenant" value="tenants&#10;Retention configuration&#10;Root tenant boundary" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="160" width="270" height="100" />
+        </mxCell>
+        <mxCell id="users" value="users&#10;Verified subject / role / disabled&#10;ADMIN or ADVISOR" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="380" width="270" height="110" />
+        </mxCell>
+        <mxCell id="policies" value="policies&#10;Insurance product / provider&#10;Tenant-scoped visibility" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="440" y="160" width="280" height="110" />
+        </mxCell>
+        <mxCell id="docs" value="documents&#10;Policy association / document type&#10;Soft deletion" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="820" y="160" width="280" height="110" />
+        </mxCell>
+        <mxCell id="versions" value="document_versions&#10;Immutable original / hash / size&#10;Effective interval + supersedes_id&#10;Scan + indexing status&#10;active_generation_id" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1200" y="160" width="310" height="160" />
+        </mxCell>
+        <mxCell id="chunks" value="document_chunks&#10;Version + generation + chunk_index&#10;Encrypted content + provenance&#10;Vector / model / dimensions&#10;Blind keyword vector" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1200" y="430" width="310" height="160" />
+        </mxCell>
+        <mxCell id="jobs" value="ingestion_jobs&#10;Version + generation&#10;Attempt / lease token / lease expiry&#10;Progress + input-token usage" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="820" y="430" width="280" height="140" />
+        </mxCell>
+        <mxCell id="notify" value="ingestion_notifications&#10;Job ID / publish lease / retries&#10;Durable SQS notification outbox" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="820" y="720" width="280" height="110" />
+        </mxCell>
+        <mxCell id="cache" value="embedding_cache&#10;Tenant + chunk hash&#10;Model + dimensions + vector" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1200" y="720" width="310" height="110" />
+        </mxCell>
+        <mxCell id="conv" value="conversations&#10;Owner + policy + optional comparison&#10;As-of date / explicit version IDs&#10;Expiry + encrypted question memory" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="440" y="380" width="280" height="150" />
+        </mxCell>
+        <mxCell id="run" value="chat_runs&#10;Idempotency key + request fingerprint&#10;Lease / status&#10;Encrypted replay response" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="440" y="650" width="280" height="130" />
+        </mxCell>
+        <mxCell id="messages" value="chat_messages&#10;Conversation + run&#10;Encrypted user/assistant payloads&#10;Usage + insufficient-evidence flag" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="650" width="270" height="130" />
+        </mxCell>
+        <mxCell id="audit" value="audit_logs&#10;Tenant / actor / resource / request&#10;Action + timestamp" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;spacing=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="900" width="270" height="100" />
+        </mxCell>
+        <mxCell id="e16" value="1 : many" source="tenant" target="users" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e17" value="1 : many" source="tenant" target="policies" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e18" value="1 : many" source="policies" target="docs" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e19" value="1 : many" source="docs" target="versions" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e20" value="1 : many / generations" source="versions" target="chunks" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e21" value="1 : many attempts/generations" source="versions" target="jobs" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e22" value="notification row" source="jobs" target="notify" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e23" value="owner" source="users" target="conv" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e24" value="scope" source="policies" target="conv" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e25" value="1 : many" source="conv" target="run" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e26" value="1 : many" source="conv" target="messages" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e27" value="persisted pair" source="run" target="messages" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e28" value="reuse vector by content hash" source="chunks" target="cache" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=#ffffff;dashed=1;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="bounds" value="RLS: transaction-local app.tenant_id; conversations also use app.user_id. Separate API / worker DB privileges. Text encryption uses AES-256-GCM with context binding. Vectors and blind-index patterns remain visible to the database. All advisors can see their tenant policies; per-policy ACLs are not implemented." style="rounded=1;whiteSpace=wrap;html=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;spacing=10;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="440" y="900" width="1070" height="140" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

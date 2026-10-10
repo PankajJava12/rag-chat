@@ -1,0 +1,92 @@
+{
+  "startedAt": "2026-10-08T08:24:27.055Z",
+  "documents": [
+    {
+      "version_id": "c3b254b3-d823-4879-b094-756dc34dff92",
+      "document_id": "4bc23846-fc42-4eb4-825c-9d45d512a83a",
+      "version": 1,
+      "status": "INDEXED",
+      "scan_status": "CLEAN",
+      "failure_code": null,
+      "chunk_count": 1,
+      "embedding_model": "ollama:nomic-embed-text:v1.5",
+      "indexed_at": "2026-10-08T08:24:29.639Z"
+    },
+    {
+      "version_id": "b6199315-0f30-48b6-818d-a444b8ba2d33",
+      "document_id": "b6da85c7-f16d-4481-82f3-b7c483e4c162",
+      "version": 1,
+      "status": "INDEXED",
+      "scan_status": "CLEAN",
+      "failure_code": null,
+      "chunk_count": 2,
+      "embedding_model": "ollama:nomic-embed-text:v1.5",
+      "indexed_at": "2026-10-08T08:24:31.313Z"
+    },
+    {
+      "version_id": "d40c5cf0-0073-475f-ae35-6d288d8c157e",
+      "document_id": "9721fa0f-a08b-4c23-9ef1-3afb256d6a14",
+      "version": 1,
+      "status": "INDEXED",
+      "scan_status": "CLEAN",
+      "failure_code": null,
+      "chunk_count": 3,
+      "embedding_model": "ollama:nomic-embed-text:v1.5",
+      "indexed_at": "2026-10-08T08:24:33.067Z"
+    },
+    {
+      "version_id": "43d75af3-662d-4edb-b0c3-d4fe572b1217",
+      "document_id": "d304713e-933a-49d0-b551-f65efe4e82e7",
+      "version": 1,
+      "status": "INDEXED",
+      "scan_status": "CLEAN",
+      "failure_code": null,
+      "chunk_count": 1,
+      "embedding_model": "ollama:nomic-embed-text:v1.5",
+      "indexed_at": "2026-10-08T08:24:34.532Z"
+    },
+    {
+      "version_id": "99d17f2f-aa32-4ec5-994b-f8f161eb0eca",
+      "document_id": "3b299306-265d-4527-9c41-f61f4ab0961d",
+      "version": 1,
+      "status": "INDEXED",
+      "scan_status": "CLEAN",
+      "failure_code": null,
+      "chunk_count": 1,
+      "embedding_model": "ollama:nomic-embed-text:v1.5",
+      "indexed_at": "2026-10-08T08:24:37.554Z"
+    },
+    {
+      "version_id": "66156086-4124-4390-8217-25006d53f99c",
+      "document_id": "4bc23846-fc42-4eb4-825c-9d45d512a83a",
+      "version": 2,
+      "status": "INDEXED",
+      "scan_status": "CLEAN",
+      "failure_code": null,
+      "chunk_count": 1,
+      "embedding_model": "ollama:nomic-embed-text:v1.5",
+      "indexed_at": "2026-10-08T08:24:44.240Z"
+    },
+    {
+      "version_id": "ee4a5c3d-8543-4e63-bada-4cee6eb91156",
+      "document_id": "01c8b73d-9473-4d3b-b5cd-f8735b828021",
+      "version": 1,
+      "status": "FAILED",
+      "scan_status": "REJECTED",
+      "failure_code": "MALWARE_DETECTED",
+      "chunk_count": 0,
+      "embedding_model": null,
+      "indexed_at": null
+    }
+  ],
+  "checks": [
+    "PDF, DOCX, XLSX and CSV indexed by real ClamAV, parsers, Ollama and pgvector",
+    "Scanned PDF indexed through real English Tesseract OCR with page provenance",
+    "Version-aware search returned the 30-day term with source provenance",
+    "Superseded PDF excluded from current search and retained for historical search",
+    "Real ClamAV quarantined the harmless EICAR test file",
+    "Chunk text encrypted at rest; real 768-dimensional Ollama vectors persisted; duplicate completion produced one job",
+    "ADVISOR write rejected"
+  ],
+  "finishedAt": "2026-10-08T08:24:46.965Z"
+}

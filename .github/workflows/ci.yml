@@ -1,0 +1,31 @@
+name: Local RAG checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm audit --omit=dev --audit-level=high
+      - run: npm run setup
+      - run: docker compose --env-file .env.development up -d --wait postgres redis
+      - run: npm run db:migrate
+      - run: npm run db:migrate
+      - run: npm run test:integration
+      - run: docker compose --env-file .env.development up -d --build --wait
+      - run: npm run test:e2e
+      - run: npm run test:chat
+      - run: npm run test:advanced
+      - run: npm run test:security
+      - run: node scripts/smoke.mjs
+      - run: node scripts/failure-smoke.mjs
+      - if: always()
+        run: docker compose --env-file .env.development down

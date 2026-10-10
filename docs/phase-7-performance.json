@@ -1,0 +1,22 @@
+{
+  "validatedAt": "2026-10-09T05:39:11.833Z",
+  "environment": "Native API/worker/Vite; real local pgvector, Redis and Ollama",
+  "scope": "Synthetic policy retrieval; end-to-end model answer latency and production concurrency are not measured",
+  "requests": 30,
+  "concurrency": 2,
+  "coldRequestMs": 585.2090840000001,
+  "warm": {
+    "minMs": 14.860082999999918,
+    "medianMs": 17.457292000000052,
+    "p95Ms": 35.246208000000024,
+    "maxMs": 35.46625000000006
+  },
+  "traceId": "42233dfd5232f175e629bdec0a894b7d",
+  "checks": [
+    "Authenticated fresh-version retrieval for every request",
+    "Query cache hit recorded",
+    "Prometheus scrapes API and worker"
+  ],
+  "provisionalRetrievalTargetMs": 300,
+  "targetMet": true
+}

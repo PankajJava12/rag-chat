@@ -1,0 +1,51 @@
+# Opt-in overlay. Reuses the same DB/account secrets; local filesystem documents stay intact.
+services:
+  localstack:
+    image: localstack/localstack:4.12.0@sha256:0df3a97da57de03a588c05d9b8f390f15c7033fc7c4512f94619d344bc3cd317
+    environment:
+      SERVICES: s3,sqs
+      AWS_DEFAULT_REGION: ap-south-1
+      EAGER_SERVICE_LOADING: 1
+      SQS_ENDPOINT_STRATEGY: off
+      LOCALSTACK_HOST: localhost:4566
+      PERSISTENCE: 0
+    ports: ["127.0.0.1:4566:4566"]
+    volumes:
+      [
+        "./docker/localstack-init.sh:/etc/localstack/init/ready.d/10-resources.sh:ro",
+        "localstack-data:/var/lib/localstack",
+      ]
+    mem_limit: 768m
+    cpus: 1
+    healthcheck:
+      test:
+        [
+          CMD-SHELL,
+          'curl -fsS http://localhost:4566/_localstack/init/ready | python3 -c ''import json,sys; s=json.load(sys.stdin); sys.exit(0 if s["completed"] and all(x["state"] == "SUCCESSFUL" for x in s["scripts"]) else 1)''',
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 40
+  api:
+    environment:
+      DEPLOYMENT_TARGET: localstack
+      STORAGE_PROVIDER: s3
+      QUEUE_PROVIDER: sqs
+      AWS_ENDPOINT_URL: http://localstack:4566
+      S3_BUCKET: advisor-policies-local
+      SQS_QUEUE_URL: http://localstack:4566/000000000000/advisor-ingestion
+    depends_on:
+      localstack: { condition: service_healthy }
+  worker:
+    environment:
+      DEPLOYMENT_TARGET: localstack
+      STORAGE_PROVIDER: s3
+      QUEUE_PROVIDER: sqs
+      AWS_ENDPOINT_URL: http://localstack:4566
+      S3_BUCKET: advisor-policies-local
+      SQS_QUEUE_URL: http://localstack:4566/000000000000/advisor-ingestion
+    depends_on:
+      localstack: { condition: service_healthy }
+
+volumes:
+  localstack-data:

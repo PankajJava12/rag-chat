@@ -1,0 +1,23 @@
+server:
+  http_listen_port: 3200
+distributor:
+  receivers:
+    otlp:
+      protocols:
+        http: { endpoint: "0.0.0.0:4318" }
+ingester:
+  max_block_duration: 1m
+compactor:
+  compaction:
+    block_retention: 24h
+storage:
+  trace:
+    backend: local
+    wal: { path: /var/tempo/wal }
+    local: { path: /var/tempo/blocks }
+
+querier:
+  max_concurrent_queries: 2
+query_frontend:
+  trace_by_id:
+    query_shards: 2

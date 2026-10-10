@@ -1,0 +1,19 @@
+# Apply with docker-compose.observability.yml after starting the application stack.
+# Scrape container endpoints; keep the native monitoring configuration intact.
+services:
+  prometheus:
+    volumes: !override
+      - ./docker/observability/prometheus.docker.yml:/etc/prometheus/prometheus.yml:ro
+      - ./docker/observability/alerts.yml:/etc/prometheus/alerts.yml:ro
+      - prometheus-data:/prometheus
+    networks:
+      - default
+      - application
+  tempo:
+    networks:
+      - default
+      - application
+networks:
+  application:
+    external: true
+    name: ai-advisor-assistant_default

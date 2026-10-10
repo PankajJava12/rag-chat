@@ -1,0 +1,15 @@
+node_modules/
+dist/
+coverage/
+.env*
+!.env.example
+*.log
+.DS_Store
+.terraform/
+*.tfstate*
+
+.local/
+tests/fixtures/generated/
+*.tfplan
+*.tfvars
+!*.tfvars.example

@@ -1,0 +1,14 @@
+{
+  "validatedAt": "2026-10-09T05:55:31.664Z",
+  "environment": "Native API/worker/Vite, Docker dependencies, LocalStack S3/SQS",
+  "policyId": "cffe1c8b-54e6-4b1b-aa82-153d322a40b7",
+  "versionId": "d7ddf7d0-6952-4b41-9bb1-afad77b30e87",
+  "documentId": "4f119979-001c-48c9-8d4b-fea05d9e2f72",
+  "completionTraceId": "949f7707d3729d5374bbf866b7d80a20",
+  "checks": [
+    "Authenticated upload through web proxy",
+    "Worker scanned, embedded and indexed S3 document",
+    "Hybrid retrieval returned indexed evidence",
+    "Authenticated source download matched original bytes"
+  ]
+}

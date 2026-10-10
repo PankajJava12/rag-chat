@@ -1,0 +1,38 @@
+groups:
+  - name: advisor
+    rules:
+      - alert: AdvisorProcessUnavailable
+        expr: up{job=~"advisor-.*"} == 0
+        for: 30s
+        labels: { severity: critical }
+        annotations: { summary: "Advisor metrics endpoint unavailable" }
+      - alert: AdvisorDependencyDegraded
+        expr: advisor_ready == 0
+        for: 30s
+        labels: { severity: warning }
+        annotations: { summary: "Advisor dependency readiness degraded" }
+      - alert: AdvisorHighErrorRate
+        expr: sum(rate(advisor_http_duration_seconds_count{status=~"5.."}[5m])) / clamp_min(sum(rate(advisor_http_duration_seconds_count[5m])), 0.001) > 0.05
+        for: 2m
+        labels: { severity: warning }
+        annotations:
+          { summary: "API server errors exceed provisional 5% threshold" }
+      - alert: AdvisorGenerationSlow
+        expr: histogram_quantile(0.95, sum by (le) (rate(advisor_operation_duration_seconds_bucket{operation="generation.answer"}[5m]))) > 150
+        for: 2m
+        labels: { severity: warning }
+        annotations:
+          { summary: "Generation approaches the local model timeout" }
+      - alert: AdvisorIngestionFailure
+        expr: increase(advisor_ingestion_jobs_total{outcome="failed"}[10m]) > 0
+        labels: { severity: warning }
+        annotations: { summary: "An ingestion attempt exhausted retries" }
+
+      - alert: AdvisorQueueDelayed
+        expr: advisor_ingestion_backlog{kind="oldest_pending_seconds"} > 300
+        for: 1m
+        labels: { severity: warning }
+        annotations:
+          {
+            summary: "Ingestion backlog exceeds provisional five-minute threshold",
+          }

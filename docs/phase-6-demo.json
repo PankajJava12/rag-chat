@@ -1,0 +1,15 @@
+{
+  "validatedAt": "2026-10-09T05:14:25.960Z",
+  "environment": "LocalStack 4.12.0; local PostgreSQL/Redis/ClamAV/Ollama",
+  "checks": [
+    "Authenticated upload stores ciphertext in LocalStack S3",
+    "S3 conditional write permits identical retries and rejects changed content",
+    "S3 versioning, public-access block and server encryption are enabled",
+    "Committed job outbox is published to encrypted SQS with a DLQ",
+    "S3 bytes are scanned, parsed, embedded by Ollama and indexed in real pgvector",
+    "Authenticated source download decrypts the original S3 document",
+    "Unacknowledged poison message reaches the real LocalStack DLQ after bounded delivery attempts"
+  ],
+  "policyId": "90a601cc-59b8-4e65-84ee-8d2a3c65a2f6",
+  "versionId": "8c15ad2b-a292-43cf-a847-807a3d03f460"
+}
