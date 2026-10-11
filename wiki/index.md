@@ -1,13 +1,13 @@
 # Project wiki index
 
-Start with [overview](overview.md). This wiki is a maintained knowledge layer over existing project documentation/code, inspired by [Karpathy's LLM Wiki](sources/llm-wiki.md). It describes the project; it is separate from the application's uploaded policy knowledge base. Sources were reviewed on 2026-10-10; runtime status was not checked.
+Start with [overview](overview.md). This wiki is a maintained knowledge layer over existing project documentation/code, inspired by [Karpathy's LLM Wiki](sources/llm-wiki.md). It describes the project; it is separate from the application's uploaded policy knowledge base. Initial sources were reviewed on 2026-10-10; component guides were source-reviewed on 2026-10-11. Runtime status was not checked.
 
 ## Project topics
 
 | Page                                               | Summary                                                         |
 | -------------------------------------------------- | --------------------------------------------------------------- |
 | [Overview](overview.md)                            | Product purpose, scope and documented run profile               |
-| [Architecture](topics/architecture.md)             | Processes, shared code, durable data and code map               |
+| [Architecture](topics/architecture.md)             | Processes, shared code, durable data and local component guides |
 | [Ingestion and versioning](topics/ingestion.md)    | Upload, scan, parsing, indexing, leases and applicable versions |
 | [Retrieval and chat](topics/retrieval-and-chat.md) | Hybrid/profile-aware search, memory, grounding and replay       |
 | [Security](topics/security.md)                     | Identity, roles, RLS, encryption and audit boundaries           |

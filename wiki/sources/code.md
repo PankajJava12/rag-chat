@@ -2,12 +2,12 @@
 title: Implementation evidence inventory
 type: source
 status: current
-reviewed: 2026-10-10
+reviewed: 2026-10-11
 ---
 
 # Implementation evidence inventory
 
-Inspected filenames, manifests, selected configuration/retrieval code and the dated implementation walkthrough on 2026-10-10. This is a navigation map, not a full audit or runtime verification.
+Initial inventory reviewed on 2026-10-10. On 2026-10-11, inspected application wiring, worker flow, frontend entry points, backend symbols, configuration, processing, runtime/storage composition, database helpers and telemetry to add local app/package guides. This is a navigation map, not a full audit or runtime verification.
 
 | Source                                                 | Authority / topic                                      |
 | ------------------------------------------------------ | ------------------------------------------------------ |
@@ -26,6 +26,8 @@ Inspected filenames, manifests, selected configuration/retrieval code and the da
 | [OpenAI overlay](../../docker-compose.openai.yml)      | Container provider and dimension settings              |
 
 SQL migrations and route schemas are authoritative for constraints and requests. The [walkthrough](../../docs/project-walkthrough.md) connects these files to user behavior; inspect code directly before editing or asserting changed behavior. Generated dist/ is an output, not the editing target. Private environment files and Terraform state are excluded from wiki sources.
+
+The [architecture code map](../topics/architecture.md) links all three application and eight package READMEs. Each guide links its original implementation files and records its source-review date. Documentation link/coverage/format checks do not validate runtime behavior.
 
 ## Sources
 

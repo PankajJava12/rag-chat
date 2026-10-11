@@ -23,3 +23,10 @@ Append new dated entries; preserve prior history. Dates use the project/user cal
 - Refreshed operations, open questions and documentation source inventory. Preserved old phase reports as historical evidence and recorded their Community/no-token discrepancy.
 - Added the October 10 upgrade session readiness evidence to the console runbook, scoped to trial activation, S3/SQS health, initialization and resource visibility. This does not validate application regressions or future license entitlement.
 - October 11 validation: Compose configuration with placeholder credentials and local wiki link checks; no container restart, CI execution or application regression suite. CI requires the LOCALSTACK_AUTH_TOKEN repository secret containing a CI token.
+
+## [2026-10-11] maintenance | Add app and package guides
+
+- Source-reviewed application entry points/routes, worker flow, frontend entry points, backend symbols, processing/configuration, database helpers, runtime/storage composition and telemetry. Did not read private environment files or sample policy contents.
+- Added README.md to all three apps and eight packages, explaining purpose, main files, integration points, configuration/use and implementation boundaries with local source links. Existing docs/ remain unchanged.
+- Updated architecture links, code/documentation source inventories and index navigation. No application behavior or architectural decision changed; retained unresolved issues already recorded in the wiki.
+- Validation: component coverage, local Markdown links, wiki catalog/schema and Prettier formatting checks. No application tests, services or historical benchmarks were rerun for this documentation-only task.
