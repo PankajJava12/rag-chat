@@ -18,6 +18,10 @@ The [root README](../../README.md) is the detailed setup/runbook. Its introducti
 
 Normal web URL is localhost:8080 and API is localhost:3000. Shared ports and corpus storage make mode changes deliberate. Preserve the encryption key and make encrypted originals available to the selected backend; profiles do not automatically share source directories. host:prepare regenerates private host configuration from development settings, so use the full README procedure when changing providers. [README run modes](../../README.md).
 
+### Database terminal access
+
+Three PostgreSQL roles are available for direct inspection: `advisor_app` (runtime, RLS enforced), `advisor_owner` (DDL/migrations, no RLS) and `advisor_worker` (ingestion jobs). Use `psql "$DATABASE_URL"` with the relevant variable from `.env.development`, or exec into the container with `docker compose exec postgres psql -U advisor_owner -d advisor` if `psql` is not installed locally. Full connection instructions are in the [database package README](../../packages/database/README.md#connecting-via-terminal).
+
 | Embedding provider | Default model          | Dimensions |
 | ------------------ | ---------------------- | ---------- |
 | OpenAI             | text-embedding-3-small | 1536       |

@@ -30,3 +30,10 @@ Append new dated entries; preserve prior history. Dates use the project/user cal
 - Added README.md to all three apps and eight packages, explaining purpose, main files, integration points, configuration/use and implementation boundaries with local source links. Existing docs/ remain unchanged.
 - Updated architecture links, code/documentation source inventories and index navigation. No application behavior or architectural decision changed; retained unresolved issues already recorded in the wiki.
 - Validation: component coverage, local Markdown links, wiki catalog/schema and Prettier formatting checks. No application tests, services or historical benchmarks were rerun for this documentation-only task.
+
+## [2026-10-11] maintenance | Document database terminal connection
+
+- Added a "Connecting via terminal" section to [packages/database/README.md](../../packages/database/README.md) describing the three available PostgreSQL roles (`advisor_app`, `advisor_owner`, `advisor_worker`), their privilege boundaries, `psql` command patterns using env-var URL references, and the `docker compose exec` fallback.
+- Added a "Database terminal access" subsection to [wiki/topics/operations.md](operations.md) summarising the three roles and linking to the full instructions.
+- Source: [.env.example](../../.env.example) role/variable names; [packages/database/src/connections.ts](../../packages/database/src/connections.ts) pool configuration. Credentials not copied into wiki; README instructs readers to read from `.env.development`.
+- Documentation-only change; no application behavior, migrations or architectural decisions changed.
