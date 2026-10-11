@@ -2,7 +2,7 @@
 title: Project documentation source inventory
 type: source
 status: mixed
-reviewed: 2026-10-10
+reviewed: 2026-10-11
 ---
 
 # Project documentation source inventory
@@ -24,7 +24,7 @@ The existing docs/ collection and root README are the source layer for this wiki
 | [API contracts](../../docs/api-contracts.md)               | Narrative routes with successive phase additions; verify generated schema/code        |
 | [Validation](../../docs/validation.md)                     | Chronological local milestone outcomes, not current rerun results                     |
 | [Timeout investigation](../../docs/model-timeout-debug.md) | 2026-10-08 local model load/deadline analysis; conditional missing evidence reference |
-| [LocalStack console](../../docs/localstack-console.md)     | Optional licensed overlay instructions, not verified activation                       |
+| [LocalStack console](../../docs/localstack-console.md)     | Main licensed Compose setup; October 10 readiness evidence, October 11 consolidation; CI not rerun                       |
 
 Additional artifacts: [OpenAPI](../../docs/openapi.json), [system diagram](../../docs/system-design.drawio), phase JSON reports and preview images. [Evidence inventory](validation-evidence.md) identifies useful reports. Sample policy PDFs are application test/input material; they were not ingested into this project wiki or interpreted as insurance advice.
 

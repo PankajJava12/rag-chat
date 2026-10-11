@@ -16,3 +16,10 @@ Append new dated entries; preserve prior history. Dates use the project/user cal
 - Local link/catalog/schema check passed: 251 local links resolved, every wiki page appeared in the index and had an inbound link, and content pages contained review metadata plus Sources/Related sections.
 - Confirmed current reranker identity in source as lexical-cosine-v2 and absence of the conditional model-timeout-debug.json artifact.
 - Application behavior was unchanged; historical tests/benchmarks were not rerun. README's added wiki links point to the verified index and schema.
+
+## [2026-10-11] maintenance | Consolidate licensed LocalStack
+
+- Inspected the main/licensed Compose files, package startup script, README, console runbook and infrastructure workflow; did not read private environment files. Moved the pinned licensed image and required token into the main overlay, removed the redundant licensed overlay, and updated local commands plus CI secret configuration.
+- Refreshed operations, open questions and documentation source inventory. Preserved old phase reports as historical evidence and recorded their Community/no-token discrepancy.
+- Added the October 10 upgrade session readiness evidence to the console runbook, scoped to trial activation, S3/SQS health, initialization and resource visibility. This does not validate application regressions or future license entitlement.
+- October 11 validation: Compose configuration with placeholder credentials and local wiki link checks; no container restart, CI execution or application regression suite. CI requires the LOCALSTACK_AUTH_TOKEN repository secret containing a CI token.

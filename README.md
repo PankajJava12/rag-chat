@@ -55,7 +55,7 @@ The external-AI gate explicitly enables sending resolved questions/retrieved evi
 
 ```sh
 brew install poppler tesseract
-docker compose --env-file .env.development -f docker-compose.yml -f docker-compose.localstack.yml up -d --wait postgres redis clamav localstack
+docker compose --env-file .env.development --env-file .env.localstack -f docker-compose.yml -f docker-compose.localstack.yml up -d --wait postgres redis clamav localstack
 npm run db:migrate
 npm run db:seed
 npm run build
@@ -73,7 +73,7 @@ npm run host:start
 Once configured and built, use:
 
 ```sh
-docker compose --env-file .env.development -f docker-compose.yml -f docker-compose.localstack.yml up -d --wait postgres redis clamav localstack
+docker compose --env-file .env.development --env-file .env.localstack -f docker-compose.yml -f docker-compose.localstack.yml up -d --wait postgres redis clamav localstack
 npm run observability:up
 npm run host:start
 npm run host:status
@@ -95,7 +95,7 @@ Frontend edits reload through Vite. Backend/parser changes require a build and r
 ```sh
 tail -n 100 .local/host/api.log
 tail -n 100 .local/host/worker.log
-docker compose --env-file .env.development -f docker-compose.yml -f docker-compose.localstack.yml ps
+docker compose --env-file .env.development --env-file .env.localstack -f docker-compose.yml -f docker-compose.localstack.yml ps
 curl -fsS http://localhost:3000/health/ready
 curl -fsS http://localhost:3001/health/ready
 ```
@@ -104,7 +104,7 @@ curl -fsS http://localhost:3001/health/ready
 
 ```sh
 npm run host:stop
-docker compose --env-file .env.development -f docker-compose.yml -f docker-compose.localstack.yml down
+docker compose --env-file .env.development --env-file .env.localstack -f docker-compose.yml -f docker-compose.localstack.yml down
 docker compose -f docker-compose.observability.yml down
 ```
 
@@ -144,7 +144,7 @@ Set `OPENAI_API_KEY` privately in that file before starting the API/worker. Both
 Docker Compose 2.24.4 or newer is required for the overlay's `!override` entries. Install/setup steps are above. Stop the native/iTerm API, worker and web processes with Ctrl+C in their tabs before starting the Docker app (the detached host launcher does not track iTerm processes). Then run:
 
 ```sh
-docker compose --env-file .env.docker-openai -f docker-compose.yml -f docker-compose.localstack.yml -f docker-compose.openai.yml up -d --build --wait postgres redis clamav localstack migrate api worker web
+docker compose --env-file .env.docker-openai --env-file .env.localstack -f docker-compose.yml -f docker-compose.localstack.yml -f docker-compose.openai.yml up -d --build --wait postgres redis clamav localstack migrate api worker web
 ```
 
 Open [http://localhost:8080](http://localhost:8080). API health is [localhost:3000/health/ready](http://localhost:3000/health/ready). The OpenAI overlay publishes PostgreSQL on **localhost:5433** to avoid another local project's port 5432; within Docker it remains `postgres:5432`. ClamAV, Redis and LocalStack retain the ports in the service table below. Worker health is internal to Docker. The OpenAI overlay enables API/worker metrics on the private Docker network and exports traces to Tempo. After starting the application, start monitoring with its Docker overlay:
@@ -158,9 +158,9 @@ Open [Grafana](http://localhost:3002/d/advisor-local) and [Prometheus targets](h
 Use the same three Compose files and environment for subsequent operations:
 
 ```sh
-docker compose --env-file .env.docker-openai -f docker-compose.yml -f docker-compose.localstack.yml -f docker-compose.openai.yml ps
-docker compose --env-file .env.docker-openai -f docker-compose.yml -f docker-compose.localstack.yml -f docker-compose.openai.yml logs --tail=100 api worker
-docker compose --env-file .env.docker-openai -f docker-compose.yml -f docker-compose.localstack.yml -f docker-compose.openai.yml down
+docker compose --env-file .env.docker-openai --env-file .env.localstack -f docker-compose.yml -f docker-compose.localstack.yml -f docker-compose.openai.yml ps
+docker compose --env-file .env.docker-openai --env-file .env.localstack -f docker-compose.yml -f docker-compose.localstack.yml -f docker-compose.openai.yml logs --tail=100 api worker
+docker compose --env-file .env.docker-openai --env-file .env.localstack -f docker-compose.yml -f docker-compose.localstack.yml -f docker-compose.openai.yml down
 ```
 
 After changing the API key or model configuration, rerun the startup command to recreate affected containers. Keep volumes and the encryption key; do not use `down -v`. A blank key prevents API/worker initialization. Image builds and dependency startup can run before the key is supplied; those steps alone do not mean the application is ready.
@@ -188,7 +188,7 @@ Use the overlay for local AWS service emulation:
 
 ```sh
 npm run host:stop
-CHAT_PROVIDER=ollama ALLOW_EXTERNAL_AI=false docker compose --env-file .env.development -f docker-compose.yml -f docker-compose.localstack.yml up -d --build --wait
+CHAT_PROVIDER=ollama ALLOW_EXTERNAL_AI=false docker compose --env-file .env.development --env-file .env.localstack -f docker-compose.yml -f docker-compose.localstack.yml up -d --build --wait
 ```
 
 This enables encrypted S3 originals and SQS notifications, while PostgreSQL remains authoritative for jobs, leases and retries. New uploads retain an encrypted filesystem recovery copy. LocalStack uses dummy local credentials and requires no AWS account. Its pinned archived community image is ephemeral: the volume does not guarantee S3/SQS state restoration after a reset. Back up PostgreSQL, source recovery files and the encryption key together. See [Phase 6](docs/phase-6.md).
@@ -383,3 +383,5 @@ Chat defaults are 8 retrieved chunks, 2000 context tokens, 512 question tokens/4
 Streaming sends progress/heartbeats immediately, then publishes only validated, persisted answer paragraphs/citations. Failed reindexing preserves the previous active generation; retry/reindex requests require idempotency keys. Quarantined documents cannot be retried into the index. API liveness remains available during dependency outages; readiness checks database/Redis, while scanner/model/storage outages surface through safe operation failures and retries.
 
 Ollama, Gemini and OpenAI chat/embedding adapters are available in code. OpenAI embeddings have been verified live through the fresh sample ingestion. OpenAI chat has protocol tests; successful live chat generation has not been established for the currently selected model. Provider selection and external processing require explicit configuration; the base Docker embedding profile remains Ollama, while the OpenAI overlay selects OpenAI for both providers. Consult [configuration variables](.env.example), [API contracts](docs/api-contracts.md), [OpenAPI](docs/openapi.json), [project plan](docs/plan.md) and [validation history](docs/validation.md) for further details.
+
+LocalStack now uses the licensed 2026.9.1 image. Before starting a LocalStack profile, configure your Developer Auth Token in the Git-ignored `.env.localstack` file. See [LocalStack console setup](docs/localstack-console.md).

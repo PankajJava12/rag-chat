@@ -1,7 +1,0 @@
-# Apply after docker-compose.localstack.yml for the licensed web console.
-# Supply the token through an ignored .env.localstack file or your shell.
-services:
-  localstack:
-    image: localstack/localstack-pro:latest@sha256:0c644ede65c2d0c95737e09a39007828bd381bdb07ca8200c6bf17d66a4ed191
-    environment:
-      LOCALSTACK_AUTH_TOKEN: ${LOCALSTACK_AUTH_TOKEN:?Set your LocalStack Developer Auth Token in .env.localstack}

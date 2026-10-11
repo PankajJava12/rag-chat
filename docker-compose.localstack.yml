@@ -1,8 +1,9 @@
 # Opt-in overlay. Reuses the same DB/account secrets; local filesystem documents stay intact.
 services:
   localstack:
-    image: localstack/localstack:4.12.0@sha256:0df3a97da57de03a588c05d9b8f390f15c7033fc7c4512f94619d344bc3cd317
+    image: localstack/localstack-pro:2026.9.1@sha256:0c644ede65c2d0c95737e09a39007828bd381bdb07ca8200c6bf17d66a4ed191
     environment:
+      LOCALSTACK_AUTH_TOKEN: ${LOCALSTACK_AUTH_TOKEN:?Load .env.localstack or export LOCALSTACK_AUTH_TOKEN}
       SERVICES: s3,sqs
       AWS_DEFAULT_REGION: ap-south-1
       EAGER_SERVICE_LOADING: 1

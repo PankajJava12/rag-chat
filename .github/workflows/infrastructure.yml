@@ -37,12 +37,20 @@ jobs:
       - run: terraform -chdir=infra/aws validate
       - run: terraform -chdir=infra/aws test
   localstack:
+    env:
+      LOCALSTACK_AUTH_TOKEN: ${{ secrets.LOCALSTACK_AUTH_TOKEN }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: "24", cache: npm }
+      - name: Require LocalStack CI license token
+        run: |
+          if [ -z "$LOCALSTACK_AUTH_TOKEN" ]; then
+            echo "Configure the LOCALSTACK_AUTH_TOKEN repository secret with a LocalStack CI Auth Token."
+            exit 1
+          fi
       - run: npm ci
       - run: npm run setup
       - run: docker compose --env-file .env.development -f docker-compose.yml -f docker-compose.localstack.yml up -d --wait postgres redis ollama clamav localstack

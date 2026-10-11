@@ -2,7 +2,7 @@
 title: Open questions, contradictions and gaps
 type: topic
 status: mixed
-reviewed: 2026-10-10
+reviewed: 2026-10-11
 ---
 
 # Open questions, contradictions and gaps
@@ -25,7 +25,7 @@ reviewed: 2026-10-10
 - Production load/availability/cost budgets, backup restore and key recovery, TLS/KMS/compliance and live AWS/Cognito integration. Follow the [Phase 6 handoff prerequisites](../../docs/phase-6.md); deployment remains gated.
 - Finer policy ACLs, multiple memberships, distributed quotas and retention cleanup are deferred areas, not implied commitments. [Decisions](decisions.md).
 - The timeout investigation conditionally mentions model-timeout-debug.json, which is absent from the inspected docs inventory. Do not cite a successful same-policy reproduction from that note. [Investigation](../../docs/model-timeout-debug.md).
-- The licensed LocalStack overlay documents an optional console path; its live activation and account entitlement were not verified. [Console source](../../docs/localstack-console.md).
+- Licensed LocalStack runtime readiness and console access were verified during the October 10 upgrade session. The October 11 consolidation requires a new CI Auth Token repository secret; CI execution and application regressions on the licensed image remain unverified. Older Phase 6/7 runbooks describe the Community image and omit licensing configuration; use the current [console runbook](../../docs/localstack-console.md), [main Compose overlay](../../docker-compose.localstack.yml) and [CI source](../../.github/workflows/infrastructure.yml).
 - Live provider/runtime readiness and current test/audit status need a new check if requested; wiki creation does not establish them.
 
 ## Sources

@@ -31,7 +31,7 @@
     "db:keywords": "node --env-file=.env.development --import tsx scripts/backfill-keywords.ts",
     "test:security": "node --env-file=.env.development scripts/security-smoke.mjs",
     "test:localstack": "node --env-file=.env.development --import tsx tests/e2e/localstack.ts",
-    "localstack:up": "docker compose --env-file .env.development -f docker-compose.yml -f docker-compose.localstack.yml up -d --build --wait",
+    "localstack:up": "docker compose --env-file .env.development --env-file .env.localstack -f docker-compose.yml -f docker-compose.localstack.yml up -d --build --wait",
     "test:advanced": "node --env-file=.env.development --import tsx tests/e2e/advanced.ts",
     "test:localstack:containers": "node --env-file=.env.development scripts/localstack-smoke.mjs",
     "host:start": "node scripts/host.mjs start",

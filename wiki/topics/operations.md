@@ -2,7 +2,7 @@
 title: Run profiles and observability
 type: topic
 status: mixed
-reviewed: 2026-10-10
+reviewed: 2026-10-11
 ---
 
 # Run profiles and observability
@@ -26,7 +26,7 @@ Normal web URL is localhost:8080 and API is localhost:3000. Shared ports and cor
 
 These are repository defaults, not model recommendations. Matching dimensions do not make models compatible. Changing a semantic index profile requires compatible schema/indexing; old profiles may remain keyword-searchable. [Configuration](../../packages/shared/src/config.ts); [embeddings](../../packages/ai/src/embeddings.ts).
 
-LocalStack S3/SQS notifications retain PostgreSQL as job authority. The community profile is ephemeral; new uploads retain an encrypted local recovery mirror. The optional licensed-console overlay is separate and needs private account configuration. Do not infer licensed activation from its presence. [Phase 6](../../docs/phase-6.md); [licensed console instructions](../../docs/localstack-console.md).
+LocalStack S3/SQS notifications retain PostgreSQL as job authority. The main LocalStack overlay now pins licensed version 2026.9.1 and requires LOCALSTACK_AUTH_TOKEN. Local commands load the ignored .env.localstack file; CI uses a repository secret containing a CI token. PERSISTENCE remains 0, so new uploads retain an encrypted local recovery mirror and emulator recreation clears S3/SQS contents. The separate licensed overlay was removed. [Compose source](../../docker-compose.localstack.yml), [package script](../../package.json), [CI configuration](../../.github/workflows/infrastructure.yml). The October 10 upgrade session verified trial activation, health/initialization, bucket visibility in the console and queue names; this was not an application regression run. [Phase 6](../../docs/phase-6.md); [licensed console instructions](../../docs/localstack-console.md).
 
 Monitoring uses Prometheus, Grafana, Tempo and Alertmanager. Native monitoring targets host processes; container OpenAI monitoring adds the Docker overlay. API/worker metric ports and trace networking differ by profile. Logs/spans avoid policy text and secrets. Usage counters/optional configured price estimates are not a billing ledger. [Phase 7 telemetry](../../docs/phase-7.md); [current Docker telemetry instructions](../../README.md).
 
