@@ -32,6 +32,8 @@ The local Ollama schema now constrains intact excerpt source/quote pairs. Local 
 
 Follow-up evidence: infrastructure retry completed successfully after the token was added. Schema constraints alone did not eliminate the chat failure: the [diagnostic PR run](https://github.com/PankajJava12/rag-chat/actions/runs/38261372914) reproduced `INSUFFICIENT_EVIDENCE` with citations to both the exact claims sentence and the synthetic disclaimer. The server correctly abstained on that status. Generation now filters unrelated intact paragraphs with the existing topic guard, retaining the full context for validation/conflicts. A regression test verifies that the claims paragraph retains its deadline condition while excluding unrelated disclaimers. Remote verification of that final change is pending.
 
+Final implementation evidence for commit `808f0fa`: fresh local check passed lint/type/build and all 90 unit tests. The [PR RAG run](https://github.com/PankajJava12/rag-chat/actions/runs/38262190272) passed the full workflow, including real ingestion/chat/advanced/security and smoke/failure checks. The [PR infrastructure run](https://github.com/PankajJava12/rag-chat/actions/runs/38262190228) passed Terraform and licensed LocalStack validation. These are synthetic CI results, not representative policy-quality or production-load validation. The documentation evidence update follows that tested implementation without changing application code.
+
 ## Sources
 
 - [Validation report](../../docs/validation.md)
