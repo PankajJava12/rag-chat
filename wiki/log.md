@@ -37,3 +37,10 @@ Append new dated entries; preserve prior history. Dates use the project/user cal
 - Added a "Database terminal access" subsection to [wiki/topics/operations.md](operations.md) summarising the three roles and linking to the full instructions.
 - Source: [.env.example](../../.env.example) role/variable names; [packages/database/src/connections.ts](../../packages/database/src/connections.ts) pool configuration. Credentials not copied into wiki; README instructs readers to read from `.env.development`.
 - Documentation-only change; no application behavior, migrations or architectural decisions changed.
+
+## [2026-10-12] maintenance | Enable persistent application restart
+
+- Added `restart: unless-stopped` to PostgreSQL, Redis, Ollama, ClamAV, API, worker and web in base Compose, and LocalStack in its overlay. Kept migration/model initialization jobs without automatic restart.
+- Updated README reboot guidance and operations wiki with manual-stop semantics and the limits of dependency orchestration during Docker restarts.
+- Validated merged OpenAI/LocalStack Compose configuration using placeholder values and `/dev/null` as the environment file; no private environment files were read. Formatting and diff whitespace checks passed.
+- Applied the policy directly to seven existing application containers without recreation/image upgrades, then started dependencies and API/worker/web. PostgreSQL, Redis, ClamAV, LocalStack, API and worker reported healthy; final web readiness recorded in the operations page. Migration remained exited with restart policy `no`. No reboot test or application regression suite was run.

@@ -27,6 +27,7 @@ x-environment: &environment
   ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:8080,http://localhost:5173}
 services:
   postgres:
+    restart: unless-stopped
     image: pgvector/pgvector:pg17
     environment:
       POSTGRES_USER: advisor_owner
@@ -48,6 +49,7 @@ services:
       }
     mem_limit: 1g
   redis:
+    restart: unless-stopped
     image: redis:8-alpine
     command:
       [
@@ -66,6 +68,7 @@ services:
       { test: [CMD, redis-cli, ping], interval: 5s, timeout: 3s, retries: 10 }
     mem_limit: 256m
   ollama:
+    restart: unless-stopped
     image: ollama/ollama@sha256:69f27594d8127cb43db1edcafa5e2d3cd8f88bdbc54a2cf3ceb11b8d138a24b1
     ports: ["127.0.0.1:11434:11434"]
     volumes: ["ollama-models:/root/.ollama"]
@@ -90,6 +93,7 @@ services:
       ]
     depends_on: { ollama: { condition: service_healthy } }
   clamav:
+    restart: unless-stopped
     image: clamav/clamav@sha256:ebec5bc138401b36ae987caa1a3fa3c3b2a21ed3d51f0bfa5852825e663e67b0
     platform: linux/amd64
     ports: ["127.0.0.1:3310:3310"]
@@ -124,6 +128,7 @@ services:
     depends_on: { postgres: { condition: service_healthy } }
   api:
     <<: *runtime
+    restart: unless-stopped
     environment:
       <<: *environment
       AUTH_SECRET: ${AUTH_SECRET:?Run npm run setup}
@@ -156,6 +161,7 @@ services:
       retries: 5
   worker:
     <<: *runtime
+    restart: unless-stopped
     environment:
       <<: *environment
       DATABASE_URL: postgresql://advisor_worker:${WORKER_DB_PASSWORD}@postgres:5432/advisor
@@ -178,6 +184,7 @@ services:
       timeout: 5s
       retries: 5
   web:
+    restart: unless-stopped
     build: { context: ., dockerfile: docker/Dockerfile, target: web }
     ports: ["127.0.0.1:8080:8080"]
     depends_on: { api: { condition: service_healthy } }

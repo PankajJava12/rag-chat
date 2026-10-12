@@ -1,6 +1,7 @@
 # Opt-in overlay. Reuses the same DB/account secrets; local filesystem documents stay intact.
 services:
   localstack:
+    restart: unless-stopped
     image: localstack/localstack-pro:2026.9.1@sha256:0c644ede65c2d0c95737e09a39007828bd381bdb07ca8200c6bf17d66a4ed191
     environment:
       LOCALSTACK_AUTH_TOKEN: ${LOCALSTACK_AUTH_TOKEN:?Load .env.localstack or export LOCALSTACK_AUTH_TOKEN}

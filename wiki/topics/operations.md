@@ -2,7 +2,7 @@
 title: Run profiles and observability
 type: topic
 status: mixed
-reviewed: 2026-10-11
+reviewed: 2026-10-12
 ---
 
 # Run profiles and observability
@@ -17,6 +17,12 @@ The [root README](../../README.md) is the detailed setup/runbook. Its introducti
 | Development watchers | API/worker/Vite watchers, Docker dependencies                   | .env.development; web port 5173                                            |
 
 Normal web URL is localhost:8080 and API is localhost:3000. Shared ports and corpus storage make mode changes deliberate. Preserve the encryption key and make encrypted originals available to the selected backend; profiles do not automatically share source directories. host:prepare regenerates private host configuration from development settings, so use the full README procedure when changing providers. [README run modes](../../README.md).
+
+### Automatic container restart
+
+Persistent application services (`postgres`, `redis`, `ollama`, `clamav`, `api`, `worker`, `web`, and the LocalStack overlay's `localstack`) use `restart: unless-stopped`, matching monitoring. They restart after Docker restarts when previously running; an explicit manual stop remains stopped until started again. `migrate` and `model-init` retain the default `no` policy because they are one-time jobs. Compose health/dependency conditions apply during `compose up`; Docker daemon restarts do not rerun that orchestration, so use the README startup procedure when readiness or initialization needs checking. [Base Compose](../../docker-compose.yml), [LocalStack overlay](../../docker-compose.localstack.yml), [monitoring Compose](../../docker-compose.observability.yml), [Docker restart policy documentation](https://docs.docker.com/engine/containers/start-containers-automatically/).
+
+On October 12, configuration validation with placeholder values confirmed these policies in the merged OpenAI/LocalStack profile. The seven existing application containers had their live policies updated with `docker update`; this does not recreate containers or upgrade their images. All seven were started and reported healthy, including web. No reboot test or application regression suite was performed.
 
 ### Database terminal access
 

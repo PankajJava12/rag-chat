@@ -70,6 +70,8 @@ npm run host:start
 
 ### Restart after a reboot
 
+Persistent Docker services use `restart: unless-stopped` and return when Docker starts if they were previously running. Explicitly stopped containers stay stopped; `migrate` and `model-init` remain one-time jobs. Docker restart policies do not repeat Compose's dependency readiness checks. Native host processes still need `host:start`.
+
 Once configured and built, use:
 
 ```sh
