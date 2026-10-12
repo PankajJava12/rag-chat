@@ -28,6 +28,14 @@ On October 12, configuration validation with placeholder values confirmed these 
 
 Three PostgreSQL roles are available for direct inspection: `advisor_app` (runtime, RLS enforced), `advisor_owner` (DDL/migrations, no RLS) and `advisor_worker` (ingestion jobs). Use `psql "$DATABASE_URL"` with the relevant variable from `.env.development`, or exec into the container with `docker compose exec postgres psql -U advisor_owner -d advisor` if `psql` is not installed locally. Full connection instructions are in the [database package README](../../packages/database/README.md#connecting-via-terminal).
 
+### Database web access
+
+The separate `advisor-tools` Compose project runs pgAdmin 9.18 at `http://localhost:5050`, attached to the existing `ai-advisor-assistant_default` network. `npm run tools:up` creates a random initial login password in the ignored `.local/pgadmin/password` file, preserves it thereafter, and starts the service with readiness checking. The login is `admin@advisor.example.com`; the password is supplied through a Compose secret. The host directory is mode 0700; the mounted file is mode 0644 so the container user can read it. Saved settings persist in a named volume. [Tools Compose](../../docker-compose.tools.yml), [setup script](../../scripts/tools-setup.mjs), [npm scripts](../../package.json).
+
+The first startup imports a server pointing to `postgres:5432`, database `advisor`, role `advisor_owner`; the user supplies the existing database password when connecting. This role has administrative access across tenants, so the browser can modify data as well as inspect it. Application-encrypted contents remain encrypted. The tools stack reuses PostgreSQL and requires its network to exist; remove the tools container before removing the application network. [Server definition](../../docker/pgadmin/servers.json), [README procedure](../../README.md#database-browser-pgadmin), [base database configuration](../../docker-compose.yml), [encryption implementation](../../packages/security/src/crypto.ts).
+
+October 12 runtime verification: `advisor-tools-pgadmin-1` reported healthy; `/misc/ping` and the published localhost login page returned HTTP 200. The pgAdmin configuration database contained the expected server entry, and a TCP connection from pgAdmin to `postgres:5432` succeeded. An initial `.local` login identifier was rejected by pgAdmin email validation; the final configuration uses `admin@advisor.example.com`. Authenticated database browsing remains user verification; no database credentials or customer rows were read. [Maintenance evidence](../log.md#2026-10-12-maintenance--add-pgadmin-tools-group).
+
 | Embedding provider | Default model          | Dimensions |
 | ------------------ | ---------------------- | ---------- |
 | OpenAI             | text-embedding-3-small | 1536       |

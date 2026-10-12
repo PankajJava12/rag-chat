@@ -32,7 +32,7 @@ npm ci
 npm run setup
 ```
 
-Setup creates private `.env.development` and `.env.test` files and generates database, account, signing and encryption secrets. Existing credentials are preserved. Use `LOCAL_ADMIN_EMAIL` / `LOCAL_ADMIN_PASSWORD` or the separate `LOCAL_ADVISOR_*` credentials from `.env.development`; the default admin email is `admin@advisor.local`, with a generated password. Never commit these files. [`.env.example`](.env.example) documents available settings.
+Setup creates private `.env.development` and `.env.test` files and generates database, account, signing and encryption secrets. Existing credentials are preserved. Use `LOCAL_ADMIN_EMAIL` / `LOCAL_ADMIN_PASSWORD` or the separate `LOCAL_ADVISOR_*` credentials from `.env.development`; the default admin email is `admin@advisor.example.com`, with a generated password. Never commit these files. [`.env.example`](.env.example) documents available settings.
 
 ## Run locally: native host with Gemini
 
@@ -226,6 +226,22 @@ npm run dev
 ```
 
 For Ollama, also start `ollama` and run `model-init` as described above. For Gemini, configure its private key and the external-AI gate before starting. If you configure LocalStack storage/queue, start LocalStack with its overlay as well. Open [http://localhost:5173](http://localhost:5173). Stop watchers with Ctrl+C. Parser threads use compiled code, so rebuild after parser changes.
+
+## Database browser (pgAdmin)
+
+Start the application database first, then run:
+
+```bash
+npm run tools:up
+```
+
+This creates a separate Docker Desktop Compose group, **advisor-tools**, and serves pgAdmin at [http://localhost:5050](http://localhost:5050). Sign in as `admin@advisor.example.com` using the generated password in `.local/pgadmin/password`. This is a separate pgAdmin login, not an application account. Setup preserves the password on subsequent runs; if you change it in pgAdmin, use the new password thereafter. The ignored password directory is private on the host; the file is readable by the container through a Compose secret.
+
+Under **Servers → AI Advisor**, open **AI Advisor project database** and enter the database owner's existing `POSTGRES_PASSWORD` from your active application configuration (for the Docker/OpenAI profile, `.env.docker-openai`). The server is preconfigured with host `postgres`, port `5432`, database `advisor`, and user `advisor_owner`. The owner's credentials allow inspecting all tenants and making changes. Expand **Databases → advisor → Schemas → public → Tables** to explore tables, or open **Query Tool** to run SQL. Application-encrypted fields remain encrypted in the database browser.
+
+The tools stack joins the existing `ai-advisor-assistant_default` network and reuses the running database; it does not create a second PostgreSQL instance. Only localhost can access its published web port. Login settings and saved server definitions persist in `advisor-tools_pgadmin-data`. Server definitions import on the first initialization of that volume, as described in the [pgAdmin container documentation](https://www.pgadmin.org/docs/pgadmin4/9.18/container_deployment.html).
+
+Use `npm run tools:stop` to stop it or `npm run tools:down` to remove its container while keeping saved settings. Start again with `npm run tools:up`. The application network must exist before startup and must not be removed while pgAdmin is attached; stop/remove tools before running the application's `docker compose down`.
 
 ## Localhost services and URLs
 

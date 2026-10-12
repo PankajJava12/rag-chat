@@ -38,6 +38,9 @@
     "host:stop": "node scripts/host.mjs stop",
     "host:status": "node scripts/host.mjs status",
     "observability:up": "docker compose -f docker-compose.observability.yml up -d",
+    "tools:up": "node scripts/tools-setup.mjs && docker compose --env-file /dev/null -f docker-compose.tools.yml up -d --wait",
+    "tools:stop": "docker compose --env-file /dev/null -f docker-compose.tools.yml stop",
+    "tools:down": "docker compose --env-file /dev/null -f docker-compose.tools.yml down",
     "test:performance": "node --env-file=.env.host scripts/performance.mjs",
     "host:prepare": "node --env-file=.env.development scripts/host-prepare.mjs"
   },

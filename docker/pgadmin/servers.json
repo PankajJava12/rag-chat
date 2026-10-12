@@ -1,0 +1,13 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "AI Advisor project database",
+      "Group": "AI Advisor",
+      "Host": "postgres",
+      "Port": 5432,
+      "MaintenanceDB": "advisor",
+      "Username": "advisor_owner",
+      "SSLMode": "prefer"
+    }
+  }
+}

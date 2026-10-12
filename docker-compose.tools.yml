@@ -1,0 +1,36 @@
+name: advisor-tools
+services:
+  pgadmin:
+    image: dpage/pgadmin4:9.18
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@advisor.example.com
+      PGADMIN_DEFAULT_PASSWORD_FILE: /run/secrets/pgadmin_password
+      PGADMIN_DISABLE_POSTFIX: "true"
+      PGADMIN_LISTEN_PORT: 5050
+    ports: ["127.0.0.1:5050:5050"]
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+      - ./docker/pgadmin/servers.json:/pgadmin4/servers.json:ro
+    secrets: [pgadmin_password]
+    networks: [application]
+    healthcheck:
+      test:
+        - CMD
+        - /venv/bin/python3
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5050/misc/ping', timeout=5)"
+      interval: 10s
+      timeout: 6s
+      retries: 12
+      start_period: 30s
+    mem_limit: 512m
+networks:
+  application:
+    external: true
+    name: ai-advisor-assistant_default
+volumes:
+  pgadmin-data:
+secrets:
+  pgadmin_password:
+    file: ./.local/pgadmin/password
