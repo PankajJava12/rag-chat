@@ -21,6 +21,8 @@ Exact quotation proves provenance, not relevance or full policy completeness. La
 
 Ollama constrained decoding binds source IDs to their complete intact paragraph excerpts (8–3000 characters) and tables of the same size. Raw or longer chunks retain bounded free quotation selection. The existing server validator still checks provenance, clause boundaries, table completeness and topic support; the schema does not force an answer or prove relevance. OpenAI/Gemini output schemas are unchanged. [Generation adapter](../../packages/chat/src/generation.ts), [schema regression test](../../tests/unit/chat.test.ts).
 
+Before model generation, intact paragraph excerpts must individually pass the existing lexical topic-support guard. Headings and qualifications stay within their intact paragraph. Raw chunks/tables retain their existing context behavior, and the complete retrieved context remains available for conflict detection and validation. This prevents unrelated paragraphs (such as a synthetic document disclaimer) from distracting the model. Lexical filtering may still miss synonymous evidence; it is not semantic relevance validation. [Workflow](../../packages/chat/src/workflow.ts), [regression test](../../tests/unit/chat.test.ts).
+
 ## Sources
 
 - [Implementation walkthrough](../../docs/project-walkthrough.md)

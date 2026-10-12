@@ -30,6 +30,8 @@ The [latest inspected RAG run](https://github.com/PankajJava12/rag-chat/actions/
 
 The local Ollama schema now constrains intact excerpt source/quote pairs. Local synthetic PDF extraction preserved the claims sentence; the constrained model response passed grounding. Fresh `npm run check` passed all 89 unit tests, lint, type checks and build (HTTP tests required local socket access outside the sandbox). This does not establish a successful GitHub end-to-end run. CI now collects service diagnostics and preserves the synthetic chat report on assertion failure; infrastructure cleanup is guarded when setup never created its environment file. [CI workflow](../../.github/workflows/ci.yml), [infrastructure workflow](../../.github/workflows/infrastructure.yml), [chat demonstration](../../tests/e2e/chat.ts), [generation adapter](../../packages/chat/src/generation.ts).
 
+Follow-up evidence: infrastructure retry completed successfully after the token was added. Schema constraints alone did not eliminate the chat failure: the [diagnostic PR run](https://github.com/PankajJava12/rag-chat/actions/runs/38261372914) reproduced `INSUFFICIENT_EVIDENCE` with citations to both the exact claims sentence and the synthetic disclaimer. The server correctly abstained on that status. Generation now filters unrelated intact paragraphs with the existing topic guard, retaining the full context for validation/conflicts. A regression test verifies that the claims paragraph retains its deadline condition while excluding unrelated disclaimers. Remote verification of that final change is pending.
+
 ## Sources
 
 - [Validation report](../../docs/validation.md)

@@ -12,6 +12,7 @@ import {
   ollamaOutputSchema,
 } from "../../packages/chat/src/generation.js";
 import Ajv from "ajv";
+import { runRagWorkflow } from "../../packages/chat/src/workflow.js";
 import { loadConfig } from "../../packages/shared/src/config.js";
 const match: Match = {
   chunkId: "chunk",
@@ -26,6 +27,35 @@ const match: Match = {
 const evidence: Evidence[] = [{ ...match, sourceId: "S1" }];
 const draft = (quote: string, sourceId = "S1") =>
   JSON.stringify({ status: "ANSWER", citations: [{ sourceId, quote }] });
+test("generation receives topical intact paragraphs with their conditions, excluding unrelated disclaimers", async () => {
+  const clause =
+    "Claims require an invoice and a discharge summary. Submit both within 30 days.";
+  const generate = jest.fn(async (_question, sources: Evidence[]) => ({
+    text: draft(sources[0]!.text, sources[0]!.sourceId),
+    inputTokens: 10,
+    outputTokens: 10,
+    model: "test",
+  }));
+  const result = await runRagWorkflow({
+    question: "What documents are required to file a claim?",
+    memory: { questions: [], topic: null },
+    budget: 2000,
+    generator: { model: "test", generate },
+    signal: new AbortController().signal,
+    status: () => {},
+    retrieve: async () => [
+      {
+        ...match,
+        text: `Synthetic test disclaimer. Not an insurance product.\n\n${clause}\n\nThe initial waiting period is 30 days.`,
+        source: { pageNumber: 1, kind: "paragraph" },
+      },
+    ],
+  });
+  expect(generate.mock.calls[0]![1].map((e) => e.text)).toEqual([clause]);
+  expect(result.result.citations[0]!.quote).toBe(clause);
+  expect(result.context.evidence.length).toBe(3);
+  expect(result.result.insufficientEvidence).toBe(false);
+});
 test("local decoding schema binds complete excerpt quotes to their own sources and permits abstention", () => {
   const excerpts = [
     {

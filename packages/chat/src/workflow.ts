@@ -80,7 +80,11 @@ export async function runRagWorkflow(options: {
         if (tableDraft) return { draft: tableDraft };
         const generated = await options.generator.generate(
           s.query,
-          s.context.evidence,
+          s.context.evidence.filter(
+            (e) =>
+              e.source.extraction !== "indexed-paragraphs-v1" ||
+              hasTopicSupport(s.query, [e.text]),
+          ),
           options.signal,
         );
         return {
