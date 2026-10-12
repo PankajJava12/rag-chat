@@ -27,5 +27,15 @@ jobs:
       - run: npm run test:security
       - run: node scripts/smoke.mjs
       - run: node scripts/failure-smoke.mjs
+      - name: Collect service diagnostics on failure
+        if: failure() && hashFiles('.env.development') != ''
+        run: |
+          docker compose --env-file .env.development ps -a
+          docker compose --env-file .env.development logs --tail=100 api worker ollama clamav
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('docs/phase-3-demo.json') != ''
+        with:
+          name: chat-evidence
+          path: docs/phase-3-demo.json
       - if: always()
         run: docker compose --env-file .env.development down

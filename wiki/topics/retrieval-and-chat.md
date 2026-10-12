@@ -2,7 +2,7 @@
 title: Retrieval and grounded chat
 type: topic
 status: current
-reviewed: 2026-10-10
+reviewed: 2026-10-12
 ---
 
 # Retrieval and grounded chat
@@ -18,6 +18,8 @@ Redis stores encrypted query embeddings with tenant/model/dimension-bound keys (
 Generation returns structured evidence selections. The server verifies source IDs, exact quotations and boundaries, then rechecks authorization and version/generation snapshots before atomic persistence. SSE publishes progress while working, and validated answer text after checks. Completed idempotency replay uses PostgreSQL history; it is separate from the Redis cache. Comparisons validate each policy's evidence independently and do not infer which policy is better. [Chat flow](../../docs/phase-3.md); [comparison/memory extensions](../../docs/phase-4.md).
 
 Exact quotation proves provenance, not relevance or full policy completeness. Layout/topic/injection heuristics may miss evidence or abstain on valid wording. Representative policy-quality evaluation remains open.
+
+Ollama constrained decoding binds source IDs to their complete intact paragraph excerpts (8–3000 characters) and tables of the same size. Raw or longer chunks retain bounded free quotation selection. The existing server validator still checks provenance, clause boundaries, table completeness and topic support; the schema does not force an answer or prove relevance. OpenAI/Gemini output schemas are unchanged. [Generation adapter](../../packages/chat/src/generation.ts), [schema regression test](../../tests/unit/chat.test.ts).
 
 ## Sources
 

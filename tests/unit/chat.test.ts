@@ -7,7 +7,11 @@ import {
   type Match,
   type Evidence,
 } from "../../packages/chat/src/grounding.js";
-import { createGenerator } from "../../packages/chat/src/generation.js";
+import {
+  createGenerator,
+  ollamaOutputSchema,
+} from "../../packages/chat/src/generation.js";
+import Ajv from "ajv";
 import { loadConfig } from "../../packages/shared/src/config.js";
 const match: Match = {
   chunkId: "chunk",
@@ -22,6 +26,29 @@ const match: Match = {
 const evidence: Evidence[] = [{ ...match, sourceId: "S1" }];
 const draft = (quote: string, sourceId = "S1") =>
   JSON.stringify({ status: "ANSWER", citations: [{ sourceId, quote }] });
+test("local decoding schema binds complete excerpt quotes to their own sources and permits abstention", () => {
+  const excerpts = [
+    {
+      ...evidence[0]!,
+      text: "Claims require an invoice and a discharge summary.",
+      source: { extraction: "indexed-paragraphs-v1" },
+    },
+    {
+      ...evidence[0]!,
+      sourceId: "S2",
+      text: "The initial waiting period is 30 days.",
+      source: { extraction: "indexed-paragraphs-v1" },
+    },
+  ];
+  const valid = new Ajv().compile(ollamaOutputSchema(excerpts));
+  expect(valid(JSON.parse(draft(excerpts[0]!.text)))).toBe(true);
+  expect(valid(JSON.parse(draft(excerpts[0]!.text, "S2")))).toBe(false);
+  expect(valid(JSON.parse(draft("Claims require an invoice.")))).toBe(false);
+  expect(
+    valid(JSON.parse(draft("The initial waiting period is 45 days.", "S2"))),
+  ).toBe(false);
+  expect(valid({ status: "INSUFFICIENT_EVIDENCE", citations: [] })).toBe(true);
+});
 test("grounding accepts exact complete clauses with source provenance and never generates source URLs from model text", () => {
   const answer = validateDraft(
     draft("Coverage is not available during the first 30 days."),

@@ -256,7 +256,15 @@ async function main() {
   );
   console.log("Phase 3 local RAG demonstration passed.");
 }
-main().catch((error) => {
+main().catch(async (error) => {
+  await writeFile(
+    "docs/phase-3-demo.json",
+    JSON.stringify(
+      { ...report, failedAt: new Date().toISOString(), error: String(error) },
+      null,
+      2,
+    ) + "\n",
+  );
   console.error(error);
   process.exitCode = 1;
 });
