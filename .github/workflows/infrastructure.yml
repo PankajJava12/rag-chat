@@ -72,5 +72,5 @@ jobs:
       - run: node --env-file=.env.development scripts/localstack-persistence.mjs
       - uses: actions/upload-artifact@v4
         with: { name: localstack-evidence, path: docs/phase-6*demo.json }
-      - if: always()
+      - if: always() && hashFiles('.env.development') != ''
         run: docker compose --env-file .env.development -f docker-compose.yml -f docker-compose.localstack.yml down

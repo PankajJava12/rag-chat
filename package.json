@@ -81,6 +81,7 @@
     "@types/supertest": "7.2.1",
     "@types/yauzl": "3.4.0",
     "@vitejs/plugin-react": "6.1.2",
+    "ajv": "6.15.0",
     "concurrently": "10.0.5",
     "docx": "9.9.0",
     "eslint": "10.12.0",

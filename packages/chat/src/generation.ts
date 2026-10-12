@@ -5,6 +5,33 @@ import { setTimeout as delay } from "node:timers/promises";
 import type { Config } from "../../shared/src/config.js";
 import { AppError } from "../../shared/src/errors.js";
 import { SYSTEM_PROMPT, outputSchema, type Evidence } from "./grounding.js";
+// Bind intact excerpts to their source IDs during local constrained decoding.
+// Longer/raw chunks retain free quotation selection and server-side validation.
+export function ollamaOutputSchema(evidence: Evidence[]) {
+  if (!evidence.length) return outputSchema;
+  const citations = evidence.map((e) => ({
+    type: "object",
+    properties: {
+      sourceId: { type: "string", const: e.sourceId },
+      quote:
+        e.text.length >= 8 &&
+        e.text.length <= 3000 &&
+        (e.source.extraction === "indexed-paragraphs-v1" ||
+          e.source.kind === "table")
+          ? { type: "string", const: e.text }
+          : { type: "string", minLength: 8, maxLength: 3000 },
+    },
+    required: ["sourceId", "quote"],
+    additionalProperties: false,
+  }));
+  return {
+    ...outputSchema,
+    properties: {
+      ...outputSchema.properties,
+      citations: { type: "array", items: { anyOf: citations }, maxItems: 4 },
+    },
+  };
+}
 export interface Generation {
   text: string;
   inputTokens: number;
@@ -148,7 +175,7 @@ function createGeneratorInternal(config: Config, logger?: Logger): Generator {
                 body: JSON.stringify({
                   model,
                   stream: true,
-                  format: outputSchema,
+                  format: ollamaOutputSchema(evidence),
                   keep_alive: "5m",
                   messages: [
                     { role: "system", content: SYSTEM_PROMPT },

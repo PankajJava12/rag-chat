@@ -3,6 +3,12 @@ import assert from "node:assert/strict";
 import { randomUUID, createHash } from "node:crypto";
 import { writeFile } from "node:fs/promises";
 import PDFDocument from "pdfkit";
+import {
+  buildContext,
+  validateDraft,
+} from "../../packages/chat/src/grounding.js";
+import { createGenerator } from "../../packages/chat/src/generation.js";
+import { loadConfig } from "../../packages/shared/src/config.js";
 const base = "http://localhost:8080/api/v1",
   origin = "http://localhost:8080";
 let cookie = "";
@@ -13,6 +19,7 @@ const report = {
   documents: [] as unknown[],
   answers: [] as unknown[],
   checks: [] as string[],
+  diagnostics: [] as unknown[],
 };
 async function call(path: string, body?: unknown, expected = 200) {
   const r = await fetch(base + path, {
@@ -171,6 +178,33 @@ async function main() {
     c.id,
     "What documents are required to file a claim?",
   );
+  if (claims.insufficientEvidence) {
+    // Only this test's synthetic policy is queried; never capture a user corpus.
+    const { value: retrieved } = await call("/search", {
+      policyId: policy.id,
+      question: "What documents are required to file a claim?",
+      asOfDate: "2026-10-08",
+    });
+    const context = buildContext(
+      retrieved.matches,
+      2000,
+      "What documents are required to file a claim?",
+    );
+    const generated = await createGenerator(loadConfig(process.env)).generate(
+      "What documents are required to file a claim?",
+      context.evidence,
+      AbortSignal.timeout(180000),
+    );
+    report.diagnostics.push({
+      context,
+      generated,
+      validated: validateDraft(
+        generated.text,
+        context.evidence,
+        "What documents are required to file a claim?",
+      ),
+    });
+  }
   assert.equal(claims.insufficientEvidence, false);
   assert.match(claims.answer, /invoice/i);
   assert.match(claims.answer, /discharge summary/i);
@@ -256,7 +290,15 @@ async function main() {
   );
   console.log("Phase 3 local RAG demonstration passed.");
 }
-main().catch((error) => {
+main().catch(async (error) => {
+  await writeFile(
+    "docs/phase-3-demo.json",
+    JSON.stringify(
+      { ...report, failedAt: new Date().toISOString(), error: String(error) },
+      null,
+      2,
+    ) + "\n",
+  );
   console.error(error);
   process.exitCode = 1;
 });
